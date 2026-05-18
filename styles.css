@@ -1190,38 +1190,234 @@ body {
 }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
+/* Mobile-first: base adjustments for phones (<500px) */
+@media (max-width: 499px) {
+    .app-container {
+        padding: 6px;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 12px;
+        justify-content: flex-start;
+    }
+    .top-bar .user-section {
+        width: 100%;
+        justify-content: center;
+        gap: 8px;
+        order: 0;
+    }
+    .top-bar .top-bar-title {
+        width: 100%;
+        order: 1;
+    }
+    .page-title {
+        font-size: 8px;
+        letter-spacing: 1px;
+    }
+    .top-bar nav {
+        display: flex;
+        gap: 6px;
+        justify-content: center;
+        order: 2;
+    }
+    .top-bar .stats-section {
+        width: 100%;
+        justify-content: center;
+        gap: 8px;
+        order: 3;
+    }
+    .top-bar .config-btn {
+        order: 4;
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+        margin-top: 2px;
+    }
+    .stat-box {
+        min-width: 60px;
+        padding: 4px 8px;
+    }
+    .stat-label {
+        font-size: 6px;
+    }
+    .stat-value {
+        font-size: 11px;
+    }
+
     .main-content {
         flex-direction: column;
+        gap: 6px;
     }
+
     .left-panel {
         width: 100%;
         min-width: unset;
-        flex-direction: row;
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .panel-progress,
+    .panel-current {
+        min-width: unset;
+        flex: none;
     }
     .panel-current {
         flex: 1;
-        min-width: 200px;
+        overflow: visible;
+        padding-bottom: 20px;
     }
-    .panel-progress {
-        flex: 1;
-        min-width: 200px;
+    .current-killer-portrait {
+        width: 80px;
+        height: 80px;
+    }
+    .current-killer-name {
+        font-size: 9px;
+    }
+    .current-perks {
+        gap: 6px;
+        min-height: 90px;
+        padding-bottom: 4px;
+    }
+    .perk-slot {
+        width: 56px;
+        height: 56px;
+    }
+    .perk-slot-name {
+        font-size: 5px;
+        bottom: -18px;
     }
     .action-buttons {
         flex-direction: row;
         width: 100%;
     }
+    .btn-win,
+    .btn-lose {
+        font-size: 9px;
+        padding: 10px 8px;
+    }
+
+    .center-panel {
+        padding: 10px;
+    }
+    .section-title {
+        font-size: 10px;
+        margin-bottom: 8px;
+    }
     .killer-grid {
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px;
+    }
+    .killer-card .killer-card-name {
+        font-size: 5px;
+    }
+    .btn-randomize {
+        font-size: 10px;
+        padding: 10px 14px;
+        margin-top: 10px;
+    }
+    .randomize-icon {
+        font-size: 16px;
+    }
+
+    .modal {
+        min-width: unset;
+        width: 94%;
+        padding: 16px;
+    }
+    .modal-title {
+        font-size: 11px;
+        margin-bottom: 14px;
+    }
+    .modal-perks {
+        width: 96%;
+    }
+    .perk-reveal-container {
+        gap: 4px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .perk-reveal-slot {
+        width: 56px;
+        height: 56px;
+    }
+    .perk-reveal-slot .perk-reveal-icon {
+        font-size: 20px;
+    }
+    .perk-reveal-slot .perk-reveal-icon .perk-image {
+        width: 40px;
+        height: 40px;
+    }
+    .perk-reveal-slot .perk-reveal-label {
+        font-size: 5px;
+    }
+    .setting-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    .modal-input {
+        width: 100%;
+    }
+    .modal-buttons {
+        flex-direction: column;
+    }
+    .modal-buttons .btn {
+        width: 100%;
+    }
+    .modal-text {
+        font-size: 11px;
+    }
+
+    .tooltip {
+        min-width: unset;
+        max-width: calc(100vw - 24px);
+        left: 12px !important;
+        right: 12px !important;
+    }
+
+    .toast-container {
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+    }
+    .toast {
+        max-width: 100%;
+        font-size: 7px;
+        padding: 10px 14px;
+    }
+
+    .user-name {
+        font-size: 11px;
+    }
+    .nav-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+    .config-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+    .btn-win,
+    .btn-lose {
+        font-size: 9px;
+        padding: 12px 8px;
     }
 }
 
-@media (max-width: 600px) {
+/* Tablets and landscape phones (500px - 767px) */
+@media (min-width: 500px) and (max-width: 767px) {
+    .app-container {
+        padding: 8px;
+    }
+
     .top-bar {
         flex-wrap: wrap;
         gap: 8px;
-        justify-content: center;
+        padding: 10px 14px;
     }
     .stats-section {
         order: 3;
@@ -1238,6 +1434,35 @@ body {
     .stat-value {
         font-size: 12px;
     }
+    .page-title {
+        font-size: 9px;
+    }
+
+    .main-content {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .left-panel {
+        width: 100%;
+        min-width: unset;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .panel-progress {
+        flex: 1;
+        min-width: 180px;
+    }
+    .panel-current {
+        flex: 1;
+        min-width: 200px;
+    }
+    .action-buttons {
+        flex-direction: row;
+        width: 100%;
+    }
+
     .killer-grid {
         grid-template-columns: repeat(4, 1fr);
         gap: 4px;
@@ -1245,19 +1470,17 @@ body {
     .killer-card .killer-card-name {
         font-size: 5px;
     }
-    .killer-card .killer-img {
-        border-radius: 3px 3px 0 0;
-    }
     .btn-randomize {
         font-size: 11px;
         padding: 10px 16px;
     }
+
     .modal-perks {
         min-width: unset;
         width: 95%;
     }
     .perk-reveal-container {
-        gap: 8px;
+        gap: 6px;
     }
     .perk-reveal-slot {
         width: 65px;
@@ -1266,11 +1489,58 @@ body {
     .perk-reveal-slot .perk-reveal-icon {
         font-size: 24px;
     }
-    .left-panel {
+    .perk-reveal-slot .perk-reveal-icon .perk-image {
+        width: 46px;
+        height: 46px;
+    }
+    .perk-reveal-slot .perk-reveal-label {
+        font-size: 5px;
+    }
+}
+
+/* Tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .main-content {
         flex-direction: column;
     }
-    .panel-progress, .panel-current {
+    .left-panel {
+        width: 100%;
         min-width: unset;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .panel-progress {
+        flex: 1;
+        min-width: 220px;
+    }
+    .panel-current {
+        flex: 2;
+        min-width: 280px;
+    }
+    .action-buttons {
+        flex-direction: row;
+        width: 100%;
+    }
+    .killer-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* Desktop (1024px+) */
+@media (min-width: 1024px) {
+    .main-content {
+        flex-direction: row;
+    }
+    .left-panel {
+        width: 260px;
+        min-width: 260px;
+        flex-direction: column;
+        flex-shrink: 0;
+    }
+    .killer-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 6px;
     }
 }
 

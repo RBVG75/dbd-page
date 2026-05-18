@@ -252,18 +252,146 @@
     box-shadow: 0 4px 20px rgba(139, 0, 0, 0.5);
 }
 
-@media (max-width: 500px) {
-    .uk-portrait {
-        width: 110px;
-        height: 110px;
+/* ===== RESPONSIVE ===== */
+/* Phones (<400px) */
+@media (max-width: 399px) {
+    .top-bar nav {
+        order: 0 !important;
     }
-    .uk-killer-name {
-        font-size: 10px;
+    .top-bar .top-bar-title {
+        order: 1 !important;
+    }
+    .top-bar .config-btn {
+        order: 2 !important;
     }
     .page-title {
+        font-size: 7px;
+    }
+    .uk-main {
+        gap: 10px;
+        padding: 4px 0;
+    }
+    .uk-hero {
+        padding: 16px;
+        max-width: 100%;
+    }
+    .uk-portrait {
+        width: 90px;
+        height: 90px;
+        border-radius: 12px;
+        margin-bottom: 8px;
+    }
+    .uk-killer-name {
         font-size: 9px;
+        min-height: 16px;
+    }
+    .uk-perks {
+        padding: 12px;
+        max-width: 100%;
+    }
+    .uk-perks-title {
+        font-size: 8px;
+        margin-bottom: 8px !important;
+    }
+    .uk-perks-list {
+        gap: 6px;
+        min-height: 40px;
     }
     .uk-perk-item {
         padding: 8px 10px;
+        gap: 10px;
+    }
+    .uk-perk-icon .perk-image {
+        width: 36px;
+        height: 36px;
+    }
+    .uk-perk-text {
+        font-size: 10px;
+    }
+    .uk-perk-text .uk-perk-name {
+        font-size: 7px;
+    }
+    .uk-history {
+        padding: 12px;
+        max-width: 100%;
+    }
+    .uk-history-list {
+        max-height: 150px;
+        gap: 4px;
+    }
+    .uk-history-item {
+        padding: 4px 8px;
+        gap: 6px;
+    }
+    .uk-history-item img {
+        width: 22px;
+        height: 22px;
+    }
+    .uk-history-item-name {
+        font-size: 6px;
+    }
+    .uk-history-item-perks .perk-image {
+        width: 18px;
+        height: 18px;
+    }
+    .uk-history-stats {
+        font-size: 7px;
+    }
+    .uk-action {
+        max-width: 100%;
+    }
+    .uk-action .btn-randomize {
+        font-size: 10px;
+        padding: 10px 14px;
+    }
+}
+
+/* Small phones / landscape (400px - 549px) */
+@media (min-width: 400px) and (max-width: 549px) {
+    .page-title {
+        font-size: 8px;
+    }
+    .uk-portrait {
+        width: 100px;
+        height: 100px;
+    }
+    .uk-killer-name {
+        font-size: 11px;
+    }
+    .uk-perk-item {
+        padding: 8px 10px;
+    }
+    .uk-perk-icon .perk-image {
+        width: 40px;
+        height: 40px;
+    }
+    .uk-perk-text .uk-perk-name {
+        font-size: 8px;
+    }
+    .uk-action .btn-randomize {
+        font-size: 11px;
+    }
+}
+
+/* Tablets (550px - 767px) */
+@media (min-width: 550px) and (max-width: 767px) {
+    .page-title {
+        font-size: 10px;
+    }
+    .uk-killer-name {
+        font-size: 12px;
+    }
+    .uk-perk-item {
+        padding: 10px 12px;
+    }
+}
+
+/* Desktop (768px+) */
+@media (min-width: 768px) {
+    .uk-hero,
+    .uk-perks,
+    .uk-history,
+    .uk-action {
+        max-width: 440px;
     }
 }
