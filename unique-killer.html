@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBD Unique Killer | Dead by Daylight Random Perks Challenge</title>
+    <meta name="description" content="Desafio de killer unico para Dead by Daylight. Randomiza un killer y juega solo con sus 3 perks unicas. DBD random perks mode para partidas tematicas.">
+    <meta name="robots" content="index, follow, max-snippet:160, max-image-preview:large">
+    <link rel="canonical" href="https://TU-DOMINIO.com/unique-killer.html">
+    <meta property="og:title" content="DBD Unique Killer | Dead by Daylight Random Perks Challenge">
+    <meta property="og:description" content="Randomiza un killer y juega con sus 3 perks unicas en Dead by Daylight. Desafio DBD random perks para partidas tematicas.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://TU-DOMINIO.com/unique-killer.html">
+    <meta property="og:locale" content="es_ES">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DBD Unique Killer | Dead by Daylight Random Perks Challenge">
+    <meta name="twitter:description" content="Desafio de killer unico con perks originales. DBD random perks para partidas tematicas.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="unique-killer.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "DBD Unique Killer Challenge",
+      "url": "https://TU-DOMINIO.com/unique-killer.html",
+      "description": "Randomiza un killer de Dead by Daylight y juega con sus 3 perks unicas. Desafio DBD random perks.",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "es"
+    }
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="top-bar">
+            <nav aria-label="Navegacion principal">
+                <a href="index.html" class="nav-btn" title="Volver al reto principal">◀</a>
+                <a href="killer-routes.html" class="nav-btn" title="Rutas de Killers">🗡️</a>
+            </nav>
+            <div class="top-bar-title">
+                <h1 class="page-title">🩸 DESAFIO KILLER ÚNICO</h1>
+            </div>
+            <button class="config-btn" id="configBtn" title="Sonidos">🔊</button>
+        </header>
+
+        <main class="uk-main">
+            <section class="uk-hero">
+                <div class="uk-portrait" id="ukPortrait">
+                    <span class="killer-placeholder-icon">?</span>
+                </div>
+                <p class="uk-killer-name" id="ukKillerName">Sin seleccionar</p>
+            </section>
+
+            <section class="uk-perks" id="ukPerks">
+                <h3 class="panel-title uk-perks-title">PERKS UNICAS</h3>
+                <div class="uk-perks-list" id="ukPerksList"></div>
+            </section>
+
+            <section class="uk-history" id="ukHistory">
+                <h3 class="panel-title">HISTORIAL</h3>
+                <div class="uk-history-list" id="ukHistoryList">
+                    <div class="uk-history-empty">Aún no has randomizado</div>
+                </div>
+                <div class="uk-history-stats" id="ukHistoryStats">
+                    <span id="ukTotalCount">0 killers randomizados</span>
+                </div>
+            </section>
+
+            <div class="uk-action">
+                <button class="btn btn-randomize" id="btnRandomizeUnique">
+                    <span class="randomize-icon">🎲</span>
+                    RANDOMIZAR KILLER
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="unique-killer.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBD Random Perks | Dead by Daylight Roulette & Killer Challenge</title>
+    <meta name="description" content="Randomizador de perks para Dead by Daylight. Desafia tu suerte con perks aleatorias, rutas de killers y desafio de killer unico. DBD roulette, random perks y mas.">
+    <meta name="keywords" content="dbd random perks, dbd roulette, dead by daylight randomizer, dbd killer challenge, perks aleatorias dbd, dbd randomizer perks, dead by daylight roulette">
+    <meta name="robots" content="index, follow, max-snippet:160, max-image-preview:large">
+    <link rel="canonical" href="https://TU-DOMINIO.com/">
+    <meta property="og:title" content="DBD Random Perks | Dead by Daylight Roulette Challenge">
+    <meta property="og:description" content="Randomizador de perks para Dead by Daylight. Perks aleatorias, rutas de killers y desafio unico. Pon a prueba tu suerte en cada partida.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://TU-DOMINIO.com/">
+    <meta property="og:locale" content="es_ES">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DBD Random Perks | Dead by Daylight Roulette Challenge">
+    <meta name="twitter:description" content="Randomizador de perks para Dead by Daylight. Perks aleatorias, rutas de killers y desafio unico.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "DBD Random Perks",
+      "url": "https://TU-DOMINIO.com/",
+      "description": "Randomizador de perks para Dead by Daylight con desafios de killer, rutas y perks aleatorias.",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "es",
+      "about": {
+        "@type": "VideoGame",
+        "name": "Dead by Daylight",
+        "url": "https://deadbydaylight.com/"
+      }
+    }
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="top-bar">
+            <div class="user-section">
+                <div class="user-avatar" id="userAvatar" title="Click para cambiar nombre">?</div>
+                <span class="user-name" id="userName">Jugador</span>
+            </div>
+            <div class="stats-section">
+                <div class="stat-box">
+                    <span class="stat-label">KILLERS</span>
+                    <span class="stat-value" id="statKillers">0/42</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">INTENTOS</span>
+                    <span class="stat-value" id="statAttempts">0</span>
+                </div>
+            </div>
+            <div class="top-bar-title">
+                <h1 class="page-title">🎲 RETO DBD RANDOM PERKS</h1>
+            </div>
+            <nav aria-label="Navegacion principal">
+                <a href="killer-routes.html" class="nav-btn" title="Rutas de Killers">🗡️</a>
+                <a href="unique-killer.html" class="nav-btn" title="Desafío Killer Único">🩸</a>
+            </nav>
+            <button class="config-btn" id="configBtn" title="Configuración">⚙</button>
+        </header>
+
+        <main class="main-content">
+            <aside class="left-panel">
+                <div class="panel panel-progress">
+                    <h3 class="panel-title">PROGRESO DEL RETO</h3>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span class="progress-percent" id="progressPercent">0%</span>
+                        <span class="progress-detail" id="progressDetail">Killers completados: 0 / 42</span>
+                    </div>
+                </div>
+
+                <div class="panel panel-current" id="currentKillerPanel">
+                    <h3 class="panel-title">KILLER ACTUAL</h3>
+                    <div class="current-killer-portrait" id="currentKillerPortrait">
+                        <span class="killer-placeholder-icon">?</span>
+                    </div>
+                    <p class="current-killer-name" id="currentKillerName">Sin seleccionar</p>
+                    <div class="current-perks" id="currentPerks"></div>
+                    <div class="current-status" id="currentStatus">
+                        <span class="status-badge status-waiting">ESPERANDO</span>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-win" id="btnWin" disabled>
+                        <span class="btn-icon">✓</span>
+                        <span>VICTORIA</span>
+                    </button>
+                    <button class="btn btn-lose" id="btnLose" disabled>
+                        <span class="btn-icon">✗</span>
+                        <span>DERROTA</span>
+                    </button>
+                </div>
+            </aside>
+
+            <section class="center-panel">
+                <h2 class="section-title">KILLERS DISPONIBLES</h2>
+                <div class="killer-grid" id="killerGrid"></div>
+                <button class="btn btn-randomize" id="btnRandomize">
+                    <span class="randomize-icon">🎲</span>
+                    RANDOMIZAR KILLER
+                </button>
+            </section>
+
+            
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <h2 class="modal-title">⚙ CONFIGURACIÓN</h2>
+            <div class="modal-content">
+                <div class="setting-row">
+                    <label>Sonidos</label>
+                    <button class="toggle-btn" id="toggleSound">ON</button>
+                </div>
+                <div class="setting-row">
+                    <label>Nombre de jugador</label>
+                    <input type="text" id="playerNameInput" class="modal-input" maxlength="16" placeholder="Tu nombre...">
+                </div>
+                <div class="setting-row danger-zone">
+                    <label>Reiniciar todo el reto</label>
+                    <button class="btn btn-danger" id="btnResetAll">REINICIAR</button>
+                </div>
+            </div>
+            <button class="btn btn-close" id="closeSettings">CERRAR</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="perkRevealModal">
+        <div class="modal modal-perks">
+            <h2 class="modal-title" id="perkRevealTitle">BUSCANDO RANDOM PERKS...</h2>
+            <div class="perk-reveal-container" id="perkRevealContainer"></div>
+            <button class="btn btn-close" id="closePerkReveal" style="display:none">CONTINUAR</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="resetConfirmModal">
+        <div class="modal">
+            <h2 class="modal-title">⚠ CONFIRMAR</h2>
+            <p class="modal-text">¿Estás seguro de reiniciar todo el reto? Se perderá todo el progreso.</p>
+            <div class="modal-buttons">
+                <button class="btn btn-danger" id="btnConfirmReset">SÍ, REINICIAR</button>
+                <button class="btn btn-close" id="btnCancelReset">CANCELAR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

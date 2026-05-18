@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBD Killer Routes | Dead by Daylight Roulette Challenge</title>
+    <meta name="description" content="Crea rutas personalizadas de killers en Dead by Daylight. Desafia tu suerte con perks aleatorias, perks unicas y todo aleatorio. DBD roulette para partidas extremas.">
+    <meta name="robots" content="index, follow, max-snippet:160, max-image-preview:large">
+    <link rel="canonical" href="https://TU-DOMINIO.com/killer-routes.html">
+    <meta property="og:title" content="DBD Killer Routes | Dead by Daylight Roulette Challenge">
+    <meta property="og:description" content="Crea rutas personalizadas de killers para Dead by Daylight. Perks aleatorias, perks unicas y todo aleatorio en un solo desafio.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://TU-DOMINIO.com/killer-routes.html">
+    <meta property="og:locale" content="es_ES">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DBD Killer Routes | Dead by Daylight Roulette Challenge">
+    <meta name="twitter:description" content="Rutas de killers con perks aleatorias para Dead by Daylight. DBD roulette challenge.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="killer-routes.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "DBD Killer Routes - Dead by Daylight Roulette",
+      "url": "https://TU-DOMINIO.com/killer-routes.html",
+      "description": "Crea y juega rutas personalizadas de killers con perks aleatorias en Dead by Daylight.",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "es"
+    }
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="top-bar">
+            <nav class="kr-nav-links" aria-label="Navegacion principal">
+                <a href="index.html" class="nav-btn" title="Reto Principal">◀</a>
+                <a href="unique-killer.html" class="nav-btn" title="Killer Único">🩸</a>
+            </nav>
+            <div class="top-bar-title">
+                <h1 class="page-title">🗡️ RUTAS DE KILLERS</h1>
+            </div>
+            <button class="config-btn" id="configBtn" title="Sonidos">🔊</button>
+        </header>
+
+        <main class="kr-main" id="krMain">
+            <div class="kr-list-view" id="krListView">
+                <div class="kr-header-actions">
+                    <button class="btn btn-create-route" id="btnCreateRoute">
+                        <span class="btn-icon">+</span>
+                        <span>CREAR RUTA</span>
+                    </button>
+                </div>
+
+                <div class="kr-routes-grid" id="krRoutesGrid">
+                    <div class="kr-empty">Aún no hay rutas creadas</div>
+                </div>
+            </div>
+
+            <div class="kr-create-view" id="krCreateView" style="display:none">
+                <div class="kr-create-panel">
+                    <h3 class="panel-title">CREAR NUEVA RUTA</h3>
+                    <div class="kr-form-group">
+                        <label class="kr-label">Nombre de la ruta</label>
+                        <input type="text" id="routeNameInput" class="kr-input" placeholder="Ej: Killers Dash" maxlength="30">
+                    </div>
+                    <div class="kr-form-group">
+                        <label class="kr-label">Tipo de desafío</label>
+                        <div class="kr-challenge-types" id="challengeTypes">
+                            <button class="kr-challenge-btn active" data-type="perks_random">PERKS ALEATORIAS</button>
+                            <button class="kr-challenge-btn" data-type="perks_unique">PERKS ÚNICAS</button>
+                            <button class="kr-challenge-btn" data-type="all_random">TODO ALEATORIO</button>
+                            <button class="kr-challenge-btn" data-type="no_restriction">SIN RESTRICCIÓN</button>
+                        </div>
+                    </div>
+                    <div class="kr-form-group">
+                        <label class="kr-label">Selecciona los killers de la ruta</label>
+                        <div class="kr-killer-selector" id="killerSelector"></div>
+                    </div>
+                    <div class="kr-form-group">
+                        <label class="kr-label">Orden de la ruta</label>
+                        <div class="kr-route-order" id="routeOrder"></div>
+                    </div>
+                    <div class="kr-create-actions">
+                        <button class="btn btn-save-route" id="btnSaveRoute">GUARDAR RUTA</button>
+                        <button class="btn btn-close" id="btnCancelCreate">CANCELAR</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kr-play-view" id="krPlayView" style="display:none">
+                <div class="kr-route-info" id="krRouteInfo">
+                    <div class="kr-route-header">
+                        <button class="btn btn-back" id="btnBackToList">◀ RUTAS</button>
+                        <h2 class="kr-route-title" id="krRouteTitle">—</h2>
+                        <div class="kr-route-meta" id="krRouteMeta"></div>
+                    </div>
+                    <div class="kr-progress-bar-container">
+                        <div class="kr-progress-bar-fill" id="krProgressFill" style="width:0%"></div>
+                    </div>
+                    <div class="kr-progress-info">
+                        <span class="kr-progress-text" id="krProgressText">0 / 0</span>
+                    </div>
+                </div>
+
+                <div class="kr-current-challenge" id="krCurrentChallenge" style="display:none">
+                    <div class="kr-challenge-killer" id="krChallengeKiller">
+                        <div class="kr-portrait" id="krPortrait">
+                            <span class="killer-placeholder-icon">?</span>
+                        </div>
+                        <p class="kr-killer-name" id="krKillerName">Esperando...</p>
+                    </div>
+
+                    <div class="kr-challenge-perks" id="krChallengePerks"></div>
+
+                    <div class="kr-challenge-actions">
+                        <button class="btn btn-win" id="btnRouteWin">
+                            <span class="btn-icon">✓</span>
+                            <span>VICTORIA</span>
+                        </button>
+                        <button class="btn btn-lose" id="btnRouteLose">
+                            <span class="btn-icon">✗</span>
+                            <span>DERROTA</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="kr-route-paths" id="krRoutePaths"></div>
+
+                <div class="kr-play-actions" id="krPlayActions">
+                    <button class="btn btn-start-route" id="btnStartRoute">
+                        <span class="randomize-icon">⚔️</span>
+                        INICIAR DESAFÍO
+                    </button>
+                    <button class="btn btn-reset-route" id="btnResetRoute">REINICIAR RUTA</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="resetRouteModal">
+        <div class="modal">
+            <h2 class="modal-title">⚠ CONFIRMAR</h2>
+            <p class="modal-text">¿Reiniciar el progreso de esta ruta? Perderás todo avance.</p>
+            <div class="modal-buttons">
+                <button class="btn btn-danger" id="btnConfirmResetRoute">SÍ, REINICIAR</button>
+                <button class="btn btn-close" id="btnCancelResetRoute">CANCELAR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="deleteRouteModal">
+        <div class="modal">
+            <h2 class="modal-title">⚠ ELIMINAR RUTA</h2>
+            <p class="modal-text" id="deleteRouteText">¿Estás seguro de eliminar esta ruta?</p>
+            <div class="modal-buttons">
+                <button class="btn btn-danger" id="btnConfirmDeleteRoute">ELIMINAR</button>
+                <button class="btn btn-close" id="btnCancelDeleteRoute">CANCELAR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="killer-routes.js"></script>
+</body>
+</html>
