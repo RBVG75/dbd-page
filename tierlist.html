@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBD Tierlist | Dead by Daylight Rankings</title>
+    <meta name="description" content="Tierlist de Dead by Daylight: Killers, Perks de Killer y Perks de Survivor. Rankings de S a D actualizados.">
+    <meta name="robots" content="index, follow, max-snippet:160, max-image-preview:large">
+    <link rel="canonical" href="https://rbvg75.github.io/dbd-page/tierlist.html">
+    <meta property="og:title" content="DBD Tierlist | Dead by Daylight Rankings">
+    <meta property="og:description" content="Tierlist de DBD: Killers, Perks de Killer y Perks de Survivor. Rankings S-D.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rbvg75.github.io/dbd-page/tierlist.html">
+    <meta property="og:locale" content="es_ES">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DBD Tierlist | Dead by Daylight Rankings">
+    <meta name="twitter:description" content="Tierlist de DBD: Killers, Perks de Killer y Perks de Survivor.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/tierlist.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "DBD Tierlist - Dead by Daylight Rankings",
+      "url": "https://rbvg75.github.io/dbd-page/tierlist.html",
+      "description": "Tierlist de Dead by Daylight con rankings de Killers, Perks de Killer y Perks de Survivor de S a D.",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "es"
+    }
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="top-bar">
+            <nav aria-label="Navegacion principal">
+                <a href="index.html" class="nav-btn" title="Reto Principal">◀</a>
+                <a href="killer-routes.html" class="nav-btn" title="Rutas de Killers">🗡️</a>
+                <a href="unique-killer.html" class="nav-btn" title="Killer Único">🩸</a>
+            </nav>
+            <div class="top-bar-title">
+                <h1 class="page-title">🏆 TIERLIST DBD</h1>
+            </div>
+        </header>
+
+        <main class="tl-main">
+            <div class="tl-tabs">
+                <button class="tl-tab" id="tlTabKillers">KILLERS</button>
+                <button class="tl-tab" id="tlTabPerksKiller">PERKS KILLER</button>
+                <button class="tl-tab" id="tlTabPerksSurvivor">PERKS SURVIVOR</button>
+            </div>
+
+            <div class="tl-sorter" id="tlSorter"></div>
+            <div class="tl-content" id="tlContent"></div>
+        </main>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+    <div id="tlKillerTooltip" class="tl-killer-tooltip" style="display:none"></div>
+
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/tierlist.js"></script>
+</body>
+</html>
