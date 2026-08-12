@@ -40,8 +40,12 @@ const KILLERS = [
     { id: 39, name: "The Ghoul", image: "assets/images/killers/K39_TheGhoul_Portrait.webp" },
     { id: 40, name: "The Animatronic", image: "assets/images/killers/K40_TheAnimatronic_Portrait.webp" },
     { id: 41, name: "The Krasue", image: "assets/images/killers/K41_TheKrasue_Portrait.webp" },
-    { id: 42, name: "The First", image: "assets/images/killers/K42_TheFirst_Portrait.webp" }
+    { id: 42, name: "The First", image: "assets/images/killers/K42_TheFirst_Portrait.webp" },
+    { id: 43, name: "Jason Voorhees", image: "assets/images/killers/K43_TheSlasher_Portrait.webp" },
+    { id: 44, name: "The Judgment", image: "assets/images/killers/K44_TheJudgment_Portrait.webp" }
 ];
+
+const TOTAL_KILLERS = 44;
 
 const PERKS = [
     { id: 1, name: "A Nurse's Calling", icon: "👁️" },
@@ -155,14 +159,20 @@ const PERKS = [
     { id: 110, name: "Unnerving Presence", icon: "😵" },
     { id: 111, name: "Unrelenting", icon: "😤" },
     { id: 112, name: "Whispers", icon: "🤫" },
-    { id: 113, name: "Zanshin Tactics", icon: "🗺️" }
+    { id: 113, name: "Zanshin Tactics", icon: "🗺️" },
+    { id: 114, name: "Hex: Scared to Death", icon: "😱" },
+    { id: 115, name: "Rampage", icon: "🪓" },
+    { id: 116, name: "Silent Shadow", icon: "🌑" },
+    { id: 117, name: "Celestial Witness", icon: "⭐" },
+    { id: 118, name: "Hex: Under Your Thumb", icon: "👎" },
+    { id: 119, name: "Lay Waste", icon: "💀" }
 ];
 const PERK_IMAGE_MAP = {
     "A Nurse's Calling":"IconPerks_aNursesCalling","Agitation":"IconPerks_agitation","Alien Instinct":"AlienInstinct",
     "All-Shaking Thunder":"AllShakingThunder","Awakened Awareness":"AwakenedAwarenesss","Bamboozle":"Bamboozle",
     "Barbecue & Chili":"BBQAndChili","Batteries Included":"BatteriesIncluded","Beast of Prey":"BeastOfPrey",
     "Bitter Murmur":"IconPerks_bitterMurmur","Blood Echo":"BloodEcho","Blood Favor":"IconPerks_hexBloodFavour",
-    "Blood Warden":"BloodWarden","Bloodhound":"IconPerks_bloodhound","Boon of Shadows":"IconPerks_boonShadowStep",
+    "Blood Warden":"BloodWarden","Bloodhound":"IconPerks_bloodhound","Turn Back the Clock":"TurnBackTheClock",
     "Brutal Strength":"IconPerks_brutalStrength","Call of Brine":"CallOfBrine","Corrupt Intervention":"CorruptIntervention",
     "Coulrophobia":"Coulrophobia","Coup de Grâce":"CoupDeGrace","Cruel Limits":"CruelLimits","Dark Arrogance":"DarkArrogance",
     "Dark Devotion":"DarkDevotion","Darkness Revealed":"DarknessRevelated","Dead Man's Switch":"DeadManSwitch",
@@ -201,14 +211,16 @@ const PERK_IMAGE_MAP = {
     "Tinkerer":"IconPerks_tinkerer","Trail of Torment":"TrailOfTorment","Two Can Play":"TwoCanPlay",
     "Ultimate Weapon":"UltimateWeapon","Unbound":"Unbound","Undone":"Undone","Unforeseen":"Unforeseen","Undying":"HexUndying",
     "Unnerving Presence":"IconPerks_unnervingPresence","Unrelenting":"IconPerks_unrelenting","Weave Attunement":"WeaveAttunement",
-    "Wandering Eye":"WanderingEye","Whispers":"IconPerks_whispers","Zanshin Tactics":"ZanshinTactics"
+    "Wandering Eye":"WanderingEye","Whispers":"IconPerks_whispers","Zanshin Tactics":"ZanshinTactics",
+    "Hex: Scared to Death":"HexScaredToDeath","Rampage":"Rampage","Silent Shadow":"SilentShadow",
+    "Celestial Witness":"CelestialWitness","Hex: Under Your Thumb":"HexUnderYourThumb","Lay Waste":"LayWaste"
 };
 function perkNameToImageFile(name) {
     return PERK_IMAGE_MAP[name] || null;
 }
 function getPerkIcon(name) {
     const file = perkNameToImageFile(name);
-    if (file) return `<img src="assets/images/perks_killers/${file}.png" alt="${name}" class="perk-image">`;
+    if (file) return `<img src="assets/images/perks_killers/${file}.png" alt="${name}" class="perk-image" onerror="this.outerHTML='<span class=\'perk-fallback\'>❓</span>'">`;
     const perkObj = PERKS.find(p => p.name === name);
     return perkObj ? perkObj.icon : '❓';
 }
@@ -460,7 +472,19 @@ const KILLER_UNIQUE_PERKS = {
     "The First": [
         "Hex: Hive Mind",
         "Secret Project",
-        "Boon of Shadows"
+        "Turn Back the Clock"
+    ],
+
+    "Jason Voorhees": [
+        "Hex: Scared to Death",
+        "Rampage",
+        "Silent Shadow"
+    ],
+
+    "The Judgment": [
+        "Celestial Witness",
+        "Hex: Under Your Thumb",
+        "Lay Waste"
     ]
 };
 
@@ -474,6 +498,7 @@ const DEFAULT_STATE = {
     killerStates: {},
     totalAttempts: 0,
     totalWins: 0,
+    totalLosses: 0,
     recentlyDefeated: null,
     isRandomizing: false
 };
@@ -623,17 +648,26 @@ function renderTopBar() {
     document.getElementById('userAvatar').textContent = state.playerName.charAt(0).toUpperCase();
 
     const completed = getCompletedCount();
-    document.getElementById('statKillers').textContent = `${completed}/42`;
+    document.getElementById('statKillers').textContent = `${completed}/${TOTAL_KILLERS}`;
     document.getElementById('statAttempts').textContent = state.totalAttempts;
+    const winRate = state.totalWins + state.totalLosses > 0 ? Math.round((state.totalWins / (state.totalWins + state.totalLosses)) * 100) : 0;
+    const heroWinRate = document.getElementById('heroWinRate');
+    const historyWins = document.getElementById('historyWins');
+    const historyLosses = document.getElementById('historyLosses');
+    const historyCompleted = document.getElementById('historyCompleted');
+    if (heroWinRate) heroWinRate.textContent = `${winRate}%`;
+    if (historyWins) historyWins.textContent = state.totalWins;
+    if (historyLosses) historyLosses.textContent = state.totalLosses;
+    if (historyCompleted) historyCompleted.textContent = completed;
 }
 
 function renderProgressPanel() {
     const completed = getCompletedCount();
-    const percent = Math.round((completed / 42) * 100);
+    const percent = Math.round((completed / TOTAL_KILLERS) * 100);
 
     document.getElementById('progressFill').style.width = `${percent}%`;
     document.getElementById('progressPercent').textContent = `${percent}%`;
-    document.getElementById('progressDetail').textContent = `Killers completados: ${completed} / 42`;
+    document.getElementById('progressDetail').textContent = `Killers completados: ${completed} / ${TOTAL_KILLERS}`;
 }
 
 function renderCurrentKiller() {
@@ -654,7 +688,8 @@ function renderCurrentKiller() {
     const killer = KILLERS.find(k => k.id === state.currentKillerId);
     const ks = state.killerStates[killer.id] || {};
     portrait.classList.add('active');
-    portrait.innerHTML = `<img src="${killer.image}" alt="${killer.name}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">`;
+    const fallbackEmoji = killer.id === 43 ? '🔪' : '?';
+    portrait.innerHTML = `<img src="${killer.image}" alt="${tKiller(killer.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:12px" onerror="this.outerHTML='<div class=\\'killer-placeholder-fallback\\'>${fallbackEmoji}</div>'">`;
 
     let statusBadge = '';
     if (ks.completed) {
@@ -665,13 +700,13 @@ function renderCurrentKiller() {
         statusBadge = '<span class="status-badge status-inprogress">EN PROGRESO</span>';
     }
 
-    nameEl.textContent = killer.name;
+        nameEl.textContent = tKiller(killer.name);
     statusEl.innerHTML = statusBadge;
 
     if (state.currentPerks && state.currentPerks.length > 0) {
         perksEl.innerHTML = state.currentPerks.map(perk => {
             const html = getPerkIcon(perk.name);
-            return `<div class="perk-slot filled" title="${perk.name}">${html}<span class="perk-slot-name">${perk.name}</span></div>`;
+            return `<div class="perk-slot filled" title="${tPerk(perk.name)}">${html}<span class="perk-slot-name">${tPerk(perk.name)}</span></div>`;
         }).join('');
     } else {
         perksEl.innerHTML = Array(4).fill(0).map(() =>
@@ -700,8 +735,8 @@ function renderKillerGrid() {
         return `<div class="${className}" data-killer-id="${killer.id}"
                      onmouseenter="showTooltip(event, ${killer.id})"
                      onmouseleave="hideTooltip()">
-                    <img class="killer-img" src="${killer.image}" alt="${killer.name}">
-                    <span class="killer-card-name">${killer.name.toUpperCase()}</span>
+                    <img class="killer-img" src="${killer.image}" alt="${tKiller(killer.name)}" onerror="this.outerHTML='<div class=\\'killer-placeholder-fallback\\' style=\\'height:80%\\'>🔪</div>'">
+                    <span class="killer-card-name">${tKiller(killer.name).toUpperCase()}</span>
                 </div>`;
     }).join('');
 }
@@ -729,7 +764,7 @@ function showTooltip(event, killerId) {
 
     const tooltip = document.getElementById('tooltip');
     tooltip.innerHTML = `
-        <div class="tooltip-name"><img src="${killer.image}" alt="${killer.name}" style="width:24px;height:24px;border-radius:4px;vertical-align:middle;margin-right:6px">${killer.name}</div>
+        <div class="tooltip-name"><img src="${killer.image}" alt="${tKiller(killer.name)}" style="width:24px;height:24px;border-radius:4px;vertical-align:middle;margin-right:6px" onerror="this.outerHTML='<span style=\\'font-size:20px;margin-right:4px\\'>🔪</span>'">${tKiller(killer.name)}</div>
         <div class="tooltip-stat">
             <span class="tooltip-stat-label">Victorias</span>
             <span class="tooltip-stat-value wins">${ks.wins}</span>
@@ -914,7 +949,7 @@ function markAsWin() {
     state.totalWins++;
 
     playSound('win');
-    showToast(`${KILLERS.find(k => k.id === killerId).name} completado!`, 'success');
+     showToast(`${tKiller(KILLERS.find(k => k.id === killerId).name)} completado!`, 'success');
 
     state.currentKillerId = null;
     state.currentPerks = [];
@@ -934,10 +969,11 @@ function markAsLoss() {
     if (!state.currentKillerId || state.isRandomizing) return;
 
     const killerId = state.currentKillerId;
-    const killerName = KILLERS.find(k => k.id === killerId).name;
+    const killerName = tKiller(KILLERS.find(k => k.id === killerId).name);
     const completedCount = getCompletedCount();
 
     state.totalAttempts++;
+    state.totalLosses = (state.totalLosses || 0) + 1;
     state.totalWins = 0;
 
     for (const id in state.killerStates) {
@@ -1037,6 +1073,48 @@ function setupEventListeners() {
         document.getElementById('playerNameInput').value = state.playerName;
         document.getElementById('playerNameInput').focus();
     });
+
+    const search = document.getElementById('killerSearch');
+    const clearFilter = document.getElementById('clearFilter');
+    if (search) {
+        search.addEventListener('input', () => {
+            const query = search.value.trim().toLowerCase();
+            document.querySelectorAll('.killer-card').forEach(card => {
+                card.hidden = Boolean(query) && !card.querySelector('.killer-card-name').textContent.toLowerCase().includes(query);
+            });
+        });
+    }
+    if (clearFilter) {
+        clearFilter.addEventListener('click', () => {
+            if (!search) return;
+            search.value = '';
+            search.dispatchEvent(new Event('input'));
+            search.focus();
+        });
+    }
+
+    const quickChallenge = document.getElementById('quickChallenge');
+    if (quickChallenge) quickChallenge.addEventListener('click', launchQuickChallenge);
+}
+
+const QUICK_CHALLENGES = [
+    ['EL PACIENTE', 'Juega sin reparar el generador más cercano al spawn.', 'El caos empieza antes de ver al killer.'],
+    ['PULSO CERO', 'No uses perks de información. Lee el sonido y las animaciones.', 'Tus ojos son el único HUD.'],
+    ['SANGRE FRÍA', 'Gana una persecución sin tirar ningún pallet en la primera vuelta.', 'Cada segundo cuenta.'],
+    ['ÚLTIMA LLAMADA', 'Abre una puerta, pero no salgas hasta conseguir un rescate.', 'La partida termina cuando tú decidas.'],
+    ['MODO ESPEJO', 'Equipa cuatro perks de una sola categoría temática.', 'Haz que la build tenga una idea.']
+];
+
+function launchQuickChallenge() {
+    const result = document.getElementById('challengeResult');
+    if (!result) return;
+    const challenge = QUICK_CHALLENGES[Math.floor(Math.random() * QUICK_CHALLENGES.length)];
+    const counter = document.getElementById('challengeCounter');
+    const current = Number((counter.textContent.match(/\d+/) || ['1'])[0]) + 1;
+    counter.textContent = `TRIAL ${String(current).padStart(3, '0')}`;
+    result.innerHTML = `<span class="result-mark">✦</span><strong>${challenge[0]}</strong><small>${challenge[1]}<br><i>${challenge[2]}</i></small>`;
+    result.animate([{ opacity: .3, transform: 'scale(.96)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 450, easing: 'ease-out' });
+    playSound('select');
 }
 
 function updateSoundToggle() {
@@ -1051,6 +1129,7 @@ function updateSoundToggle() {
 }
 
 function init() {
+    if (!document.getElementById('killerGrid')) return;
     state = getStoredState();
 
     if (state.killerStates && state.currentKillerId) {
@@ -1064,14 +1143,23 @@ function init() {
     }
 
     setupEventListeners();
+    setupLockedNav();
     render();
 
-    if (getCompletedCount() === 42) {
+    if (getCompletedCount() === TOTAL_KILLERS) {
         setTimeout(() => {
             showToast('🏆 ¡RETRO COMPLETADO! ¡Felicidades!', 'success');
         }, 500);
     }
 }
 
-document.addEventListener('DOMContentLoaded', init);
+function setupLockedNav() {
+    document.querySelectorAll('[data-locked]').forEach(el => {
+        el.addEventListener('click', (e) => {
+            e.preventDefault();
+            showToast('🚧 En construcción — disponible próximamente', 'warning');
+        });
+    });
+}
 
+document.addEventListener('DOMContentLoaded', init);

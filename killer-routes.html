@@ -17,8 +17,9 @@
     <meta name="twitter:description" content="Rutas de killers con perks aleatorias para Dead by Daylight. DBD roulette challenge.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/killer-routes.css">
+    <link rel="stylesheet" href="assets/css/hub-tools.css">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -33,20 +34,15 @@
     </script>
 </head>
 <body>
-    <div class="app-container">
-        <header class="top-bar">
-            <nav class="kr-nav-links" aria-label="Navegacion principal">
-                <a href="index.html" class="nav-btn" title="Reto Principal">◀</a>
-                <a href="unique-killer.html" class="nav-btn" title="Killer Único">🩸</a>
-                <a href="tierlist.html" class="nav-btn" title="Tierlist DBD">🏆</a>
-            </nav>
-            <div class="top-bar-title">
-                <h1 class="page-title">🗡️ RUTAS DE KILLERS</h1>
-            </div>
-            <button class="config-btn" id="configBtn" title="Sonidos">🔊</button>
+    <div class="app-container subpage-shell">
+        <header class="top-bar site-header">
+            <a class="brand-lockup" href="index.html"><span class="brand-mark">✦</span><span><strong>LA NIEBLA</strong><small>DBD CHALLENGE HUB</small></span></a>
+            <nav class="site-nav" aria-label="Navegación principal"><a href="index.html">INICIO</a><a href="random-perks.html">PERKS</a><a href="unique-killer.html">KILLERS</a><a href="killer-routes.html" aria-current="page">RUTAS</a></nav>
+            <div class="header-actions"><div class="language-switcher" role="group" aria-label="Variante del español"><button type="button" data-language="es-ES">ES-ES</button><button type="button" data-language="es-LATAM">LATAM</button></div><div class="user-section"><button class="user-avatar" id="userAvatar" title="Jugador">?</button><span class="user-name">Jugador</span></div><button class="icon-button config-btn" id="configBtn" title="Configuración" aria-label="Activar o desactivar sonido">⚙</button></div>
         </header>
 
-        <main class="kr-main" id="krMain">
+        <main class="kr-main subpage-main" id="krMain">
+            <section class="subpage-hero"><div><p class="eyebrow">03 / CAMPAÑAS DE LA ENTIDAD</p><h1>DISEÑA TU<br><span>PROPIA RUTA.</span></h1><p>Encadena killers, condiciones y finales. Una campaña personalizada para dejar de jugar partidas sueltas.</p></div><div class="subpage-console-head"><span>ARCHIVO DE CAMPAÑAS</span><strong>CHECKPOINT READY</strong></div></section>
             <div class="kr-list-view" id="krListView">
                 <div class="kr-header-actions">
                     <button class="btn btn-create-route" id="btnCreateRoute">
@@ -139,6 +135,7 @@
                 </div>
             </div>
         </main>
+        <footer class="site-footer"><div><span class="brand-mark">✦</span><strong>LA NIEBLA</strong></div><p>Una ruta larga. Cero atajos.</p><div class="footer-links"><a href="index.html">INICIO</a><a href="random-perks.html">PERKS</a><a href="unique-killer.html">KILLERS</a></div></footer>
     </div>
 
     <div class="modal-overlay" id="resetRouteModal">
@@ -167,5 +164,8 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <script src="assets/js/killer-routes.js"></script>
+    <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/killer-lore.js"></script>
+    <script src="assets/js/status-lore.js"></script>
 </body>
 </html>

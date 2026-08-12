@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Datos | La Niebla</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/hub-tools.css">
+    <link rel="stylesheet" href="assets/css/data-editor.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container subpage-shell editor-shell">
+        <header class="top-bar site-header">
+            <a class="brand-lockup" href="index.html"><span class="brand-mark">✦</span><span><strong>LA NIEBLA</strong><small>EDITOR DE DATOS</small></span></a>
+            <nav class="site-nav" aria-label="Navegación principal">
+                <a href="index.html">INICIO</a>
+                <a href="index.html#archivo-killers">ARCHIVO</a>
+                <a href="data-editor.html" aria-current="page">EDITOR</a>
+                <a href="killer-routes.html">RUTAS</a>
+            </nav>
+            <div class="header-actions">
+                <span class="editor-badge">HERRAMIENTA INTERNA</span>
+                <a class="icon-button config-btn" href="index.html" title="Volver al hub" aria-label="Volver al hub">↩</a>
+            </div>
+        </header>
+
+        <main class="editor-main subpage-main">
+            <section class="editor-hero">
+                <div>
+                    <p class="eyebrow">PANEL DE ARCHIVO</p>
+                    <h1>EDITA SIN<br><span>TOCAR CÓDIGO</span></h1>
+                    <p>Selecciona un asesino, rellena sus datos y exporta el archivo listo para pegar en <code>assets/js/killer-details-data.js</code>.</p>
+                </div>
+                <div class="editor-stats">
+                    <div><strong id="editorTotal">0</strong><span>KILLERS</span></div>
+                    <div><strong id="editorComplete">0</strong><span>COMPLETOS</span></div>
+                    <div><strong id="editorPartial">0</strong><span>PARCIALES</span></div>
+                    <div><strong id="editorEmpty">0</strong><span>VACÍOS</span></div>
+                </div>
+            </section>
+
+            <section class="editor-layout">
+                <aside class="editor-sidebar">
+                    <div class="editor-sidebar-head">
+                        <label for="editorSearch">BUSCAR KILLER</label>
+                        <input id="editorSearch" type="search" placeholder="Trampero, Nurse, 12..." autocomplete="off">
+                        <div class="editor-filter-row">
+                            <button type="button" class="editor-chip active" data-filter="all">TODOS</button>
+                            <button type="button" class="editor-chip" data-filter="empty">VACÍOS</button>
+                            <button type="button" class="editor-chip" data-filter="partial">PARCIALES</button>
+                            <button type="button" class="editor-chip" data-filter="complete">COMPLETOS</button>
+                        </div>
+                    </div>
+                    <div class="editor-killer-list" id="editorKillerList"></div>
+                </aside>
+
+                <section class="editor-workspace">
+                    <div class="editor-toolbar">
+                        <div class="editor-selected">
+                            <img id="editorPortrait" src="" alt="">
+                            <div>
+                                <p class="eyebrow" id="editorInternalName">—</p>
+                                <h2 id="editorDisplayName">Selecciona un killer</h2>
+                            </div>
+                        </div>
+                        <div class="editor-actions">
+                            <a class="btn btn-outline" id="editorPreview" href="#" target="_blank" rel="noopener">VER FICHA ↗</a>
+                            <button class="btn btn-outline" type="button" id="editorResetCurrent">RESTAURAR</button>
+                            <button class="btn btn-primary" type="button" id="editorSaveCurrent">GUARDAR</button>
+                        </div>
+                    </div>
+
+                    <form class="editor-form" id="editorForm">
+                        <fieldset>
+                            <legend>DATOS TÉCNICOS</legend>
+                            <div class="editor-grid">
+                                <label>Velocidad (m/s)<input name="speed" type="text" placeholder="4.6" inputmode="decimal"></label>
+                                <label>Altura
+                                    <select name="height">
+                                        <option value="">—</option>
+                                        <option value="Bajo">Bajo</option>
+                                        <option value="Media">Media</option>
+                                        <option value="Alto">Alto</option>
+                                    </select>
+                                </label>
+                                <label>Dificultad
+                                    <select name="difficulty">
+                                        <option value="">—</option>
+                                        <option value="Facil">Fácil</option>
+                                        <option value="Medio">Medio</option>
+                                        <option value="Dificil">Difícil</option>
+                                        <option value="Extremo">Extremo</option>
+                                    </select>
+                                </label>
+                                <label>Radio de terror<input name="terrorRadius" type="text" placeholder="32" inputmode="numeric"></label>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>PODER</legend>
+                            <div class="editor-grid editor-grid-wide">
+                                <label class="full">Nombre del poder<input name="powerName" type="text" placeholder="Trampas para osos"></label>
+                                <label class="full">Descripción del poder<textarea name="powerDescription" rows="4" placeholder="Describe el poder, mecánicas y usos clave..."></textarea></label>
+                                <label class="full">Imágenes del poder (una por línea o separadas por coma)<textarea name="powerImages" rows="3" placeholder="IconPowers_trap.webp"></textarea></label>
+                            </div>
+                            <div class="editor-image-preview" id="editorImagePreview"></div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>ESTILO Y NOTAS</legend>
+                            <div class="editor-grid editor-grid-wide">
+                                <label class="full">Estilo de juego<textarea name="playstyle" rows="4" placeholder="Cómo se juega, fortalezas y errores que castiga..."></textarea></label>
+                                <label class="full">Notas del archivo<textarea name="notes" rows="3" placeholder="Notas extras, tips, curiosidades..."></textarea></label>
+                            </div>
+                        </fieldset>
+                    </form>
+
+                    <section class="editor-export">
+                        <div class="editor-export-head">
+                            <div>
+                                <p class="eyebrow">EXPORTAR</p>
+                                <h3>Archivo listo para pegar</h3>
+                                <p>Copia o descarga el contenido completo de <code>killer-details-data.js</code>.</p>
+                            </div>
+                            <div class="editor-actions">
+                                <button class="btn btn-outline" type="button" id="editorCopy">COPIAR JS</button>
+                                <button class="btn btn-primary" type="button" id="editorDownload">DESCARGAR .JS</button>
+                            </div>
+                        </div>
+                        <textarea id="editorExport" class="editor-export-box" readonly spellcheck="false"></textarea>
+                        <p class="editor-hint">Los cambios se guardan también en <code>localStorage</code> de este navegador. Para publicarlos en la web, pega el JS exportado en <code>assets/js/killer-details-data.js</code>.</p>
+                    </section>
+                </section>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div><span class="brand-mark">✦</span><strong>LA NIEBLA</strong></div>
+            <p>Editor interno · no indexado</p>
+            <div class="footer-links"><a href="index.html">INICIO</a><a href="PROJECT_CONTEXT.md">CONTEXTO</a><a href="killer-routes.html">RUTAS</a></div>
+        </footer>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/killer-details-data.js"></script>
+    <script src="assets/js/data-editor.js"></script>
+</body>
+</html>

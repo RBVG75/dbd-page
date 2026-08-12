@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archivo del Killer | La Niebla</title>
+    <meta name="description" content="Consulta la ficha completa de cada asesino de Dead by Daylight: poder, velocidad, altura, dificultad y notas de juego.">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/hub-tools.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container subpage-shell killer-page">
+        <header class="top-bar site-header">
+            <a class="brand-lockup" href="index.html"><span class="brand-mark">✦</span><span><strong>LA NIEBLA</strong><small>DBD CHALLENGE HUB</small></span></a>
+            <nav class="site-nav" aria-label="Navegación principal"><a href="index.html">INICIO</a><a href="random-perks.html">PERKS</a><a href="index.html#archivo-killers" aria-current="page">KILLERS</a><a href="killer-routes.html">RUTAS</a></nav>
+            <div class="header-actions"><div class="language-switcher" role="group" aria-label="Variante del español"><button type="button" data-language="es-ES">ES-ES</button><button type="button" data-language="es-LATAM">LATAM</button></div><div class="user-section"><button class="user-avatar" id="userAvatar" title="Jugador">?</button><span class="user-name">Jugador</span></div><a class="icon-button config-btn" href="index.html#archivo-killers" title="Volver al archivo" aria-label="Volver al archivo">↩</a></div>
+        </header>
+        <main class="killer-detail-main subpage-main" id="killerDetail">
+            <a class="detail-back" href="index.html#archivo-killers">← VOLVER AL ARCHIVO</a>
+            <section class="killer-detail-hero">
+                <div class="detail-portrait-wrap"><img id="killerDetailImage" class="detail-portrait" src="" alt=""><span class="detail-file-id" id="killerDetailId">FILE / 00</span></div>
+                <div class="detail-intro"><p class="eyebrow">ARCHIVO DE LA NIEBLA · ASESINO</p><h1 id="killerDetailName">CARGANDO...</h1><p class="detail-subtitle" id="killerDetailRole">AMENAZA SIN CLASIFICAR</p><p class="detail-description" id="killerDetailDescription"></p><div class="detail-tags"><span>ASESINO</span><span id="killerDetailDifficulty">DIFICULTAD / POR DEFINIR</span></div></div>
+            </section>
+            <section class="detail-stats-section"><div class="detail-section-heading"><p class="eyebrow">DATOS DE CAMPO</p><h2>FICHA<br><span>TÉCNICA</span></h2><p>Este archivo está preparado para ampliar con la información exacta de cada asesino.</p></div><div class="detail-stats-grid"><article><small>VELOCIDAD DE MOVIMIENTO</small><strong id="killerSpeed">POR COMPLETAR</strong><span>m/s · base</span></article><article><small>ALTURA</small><strong id="killerHeight">POR COMPLETAR</strong><span>perfil de terror</span></article><article><small>DIFICULTAD</small><strong id="killerDifficulty">POR COMPLETAR</strong><span>curva de aprendizaje</span></article><article><small>RADIO DE TERROR</small><strong id="killerTerrorRadius">POR COMPLETAR</strong><span>metros</span></article></div></section>
+            <section class="detail-info-grid"><article class="detail-info-card detail-power-card"><p class="eyebrow">PODER</p><h2 id="killerPowerName">PODER DEL ASESINO</h2><p id="killerPowerText">Aquí podrás añadir la descripción completa del poder, sus cargas, enfriamientos, interacciones y consejos avanzados.</p><div class="power-gallery" id="killerPowerGallery"></div></article><article class="detail-info-card"><p class="eyebrow">ESTILO DE JUEGO</p><h2>¿CÓMO SE JUEGA?</h2><p id="killerStyleText">Aprende el ritmo del asesino, sus mejores escenarios, qué recursos busca y qué errores castiga.</p><div class="detail-placeholder">NOTAS DEL JUGADOR · PENDIENTES DE CARGA</div></article></section>
+            <section class="detail-notes-section"><p class="eyebrow">NOTAS DEL ARCHIVO</p><p id="killerNotes">Notas pendientes de completar.</p></section>
+            <section class="detail-perks-section"><div><p class="eyebrow">ARSENAL ÚNICO</p><h2>PERKS DEL<br><span>ASESINO</span></h2></div><div class="detail-perks-list" id="killerDetailPerks"><div class="detail-placeholder">PERKS ÚNICAS · PENDIENTES DE CARGA</div></div></section>
+        </main>
+        <footer class="site-footer"><div><span class="brand-mark">✦</span><strong>LA NIEBLA</strong></div><p>Una ficha viva, lista para crecer.</p><div class="footer-links"><a href="index.html#archivo-killers">ARCHIVO</a><a href="random-perks.html">PERKS</a><a href="killer-routes.html">RUTAS</a></div></footer>
+    </div>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/killer-lore.js"></script>
+    <script src="assets/js/killer-details-data.js"></script>
+    <script src="assets/js/killer-detail.js"></script>
+    <script src="assets/js/status-lore.js"></script>
+</body>
+</html>

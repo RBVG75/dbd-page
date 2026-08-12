@@ -40,7 +40,9 @@ const KILLERS = [
     { id: 39, name: "The Ghoul", image: "assets/images/killers/K39_TheGhoul_Portrait.webp" },
     { id: 40, name: "The Animatronic", image: "assets/images/killers/K40_TheAnimatronic_Portrait.webp" },
     { id: 41, name: "The Krasue", image: "assets/images/killers/K41_TheKrasue_Portrait.webp" },
-    { id: 42, name: "The First", image: "assets/images/killers/K42_TheFirst_Portrait.webp" }
+    { id: 42, name: "The First", image: "assets/images/killers/K42_TheFirst_Portrait.webp" },
+    { id: 43, name: "Jason Voorhees", image: "assets/images/killers/K43_TheSlasher_Portrait.webp" },
+    { id: 44, name: "The Judgment", image: "assets/images/killers/K44_TheJudgment_Portrait.webp" }
 ];
 
 const PERKS = [
@@ -155,7 +157,13 @@ const PERKS = [
     { id: 110, name: "Unnerving Presence", icon: "😵" },
     { id: 111, name: "Unrelenting", icon: "😤" },
     { id: 112, name: "Whispers", icon: "🤫" },
-    { id: 113, name: "Zanshin Tactics", icon: "🗺️" }
+    { id: 113, name: "Zanshin Tactics", icon: "🗺️" },
+    { id: 114, name: "Hex: Scared to Death", icon: "😱" },
+    { id: 115, name: "Rampage", icon: "🪓" },
+    { id: 116, name: "Silent Shadow", icon: "🌑" },
+    { id: 117, name: "Celestial Witness", icon: "⭐" },
+    { id: 118, name: "Hex: Under Your Thumb", icon: "👎" },
+    { id: 119, name: "Lay Waste", icon: "💀" }
 ];
 
 const PERK_IMAGE_MAP = {
@@ -163,7 +171,7 @@ const PERK_IMAGE_MAP = {
     "All-Shaking Thunder":"AllShakingThunder","Awakened Awareness":"AwakenedAwarenesss","Bamboozle":"Bamboozle",
     "Barbecue & Chili":"BBQAndChili","Batteries Included":"BatteriesIncluded","Beast of Prey":"BeastOfPrey",
     "Bitter Murmur":"IconPerks_bitterMurmur","Blood Echo":"BloodEcho","Blood Favor":"IconPerks_hexBloodFavour",
-    "Blood Warden":"BloodWarden","Bloodhound":"IconPerks_bloodhound","Boon of Shadows":"IconPerks_boonShadowStep",
+    "Blood Warden":"BloodWarden","Bloodhound":"IconPerks_bloodhound","Turn Back the Clock":"TurnBackTheClock",
     "Brutal Strength":"IconPerks_brutalStrength","Call of Brine":"CallOfBrine","Corrupt Intervention":"CorruptIntervention",
     "Coulrophobia":"Coulrophobia","Coup de Grâce":"CoupDeGrace","Cruel Limits":"CruelLimits","Dark Arrogance":"DarkArrogance",
     "Dark Devotion":"DarkDevotion","Darkness Revealed":"DarknessRevelated","Dead Man's Switch":"DeadManSwitch",
@@ -202,7 +210,9 @@ const PERK_IMAGE_MAP = {
     "Tinkerer":"IconPerks_tinkerer","Trail of Torment":"TrailOfTorment","Two Can Play":"TwoCanPlay",
     "Ultimate Weapon":"UltimateWeapon","Unbound":"Unbound","Undone":"Undone","Unforeseen":"Unforeseen","Undying":"HexUndying",
     "Unnerving Presence":"IconPerks_unnervingPresence","Unrelenting":"IconPerks_unrelenting","Weave Attunement":"WeaveAttunement",
-    "Wandering Eye":"WanderingEye","Whispers":"IconPerks_whispers","Zanshin Tactics":"ZanshinTactics"
+    "Wandering Eye":"WanderingEye","Whispers":"IconPerks_whispers","Zanshin Tactics":"ZanshinTactics",
+    "Hex: Scared to Death":"HexScaredToDeath","Rampage":"Rampage","Silent Shadow":"SilentShadow",
+    "Celestial Witness":"CelestialWitness","Hex: Under Your Thumb":"HexUnderYourThumb","Lay Waste":"LayWaste"
 };
 
 const KILLER_UNIQUE_PERKS = {
@@ -247,7 +257,9 @@ const KILLER_UNIQUE_PERKS = {
     "The Ghoul": ["Forever Entwined", "None Are Free", "Hex: Nothing But Misery"],
     "The Animatronic": ["Haywire", "Help Wanted", "Phantom Fear"],
     "The Krasue": ["Hex: Overture of Doom", "Ravenous", "Wandering Eye"],
-    "The First": ["Hex: Hive Mind", "Secret Project", "Boon of Shadows"]
+    "The First": ["Hex: Hive Mind", "Secret Project", "Turn Back the Clock"],
+    "Jason Voorhees": ["Hex: Scared to Death", "Rampage", "Silent Shadow"],
+    "The Judgment": ["Celestial Witness", "Hex: Under Your Thumb", "Lay Waste"]
 };
 
 // =====================================================
@@ -315,7 +327,7 @@ function perkNameToImageFile(name) {
 
 function getPerkIcon(name) {
     const file = perkNameToImageFile(name);
-    if (file) return `<img src="assets/images/perks_killers/${file}.png" alt="${name}" class="perk-image">`;
+    if (file) return `<img src="assets/images/perks_killers/${file}.png" alt="${name}" class="perk-image" onerror="this.outerHTML='<span class=\'perk-fallback\'>❓</span>'">`;
     const perkObj = PERKS.find(p => p.name === name);
     return perkObj ? perkObj.icon : '❓';
 }
@@ -518,7 +530,7 @@ function renderRoutesList() {
             let cls = 'kr-route-card-killer';
             if (route.progress[i] === 'completed') cls += ' completed';
             else if (i === currentStep && isActive) cls += ' current';
-            return `<div class="${cls}"><img src="${killer.image}" alt="${killer.name}" title="${killer.name}"></div>`;
+            return `<div class="${cls}"><img src="${killer.image}" alt="${tKiller(killer.name)}" title="${tKiller(killer.name)}"></div>`;
         }).join('');
 
         const moreCount = total > 10 ? total - 10 : 0;
@@ -545,9 +557,10 @@ function renderCreateView() {
     const selector = document.getElementById('killerSelector');
     selector.innerHTML = KILLERS.map(killer => {
         const isSelected = createState.selectedKillerIds.includes(killer.id);
+        const fb = killer.id === 43 ? '🔪' : '?';
         return `<div class="kr-killer-select-item ${isSelected ? 'selected' : ''}" data-killer-id="${killer.id}">
-            <img src="${killer.image}" alt="${killer.name}">
-            <span class="kr-ks-name">${killer.name.toUpperCase()}</span>
+             <img src="${killer.image}" alt="${tKiller(killer.name)}" onerror="this.outerHTML='<div class=\\'killer-placeholder-fallback\\' style=\\'width:100%;height:100%;font-size:32px;\\'>${fb}</div>'">
+             <span class="kr-ks-name">${tKiller(killer.name).toUpperCase()}</span>
         </div>`;
     }).join('');
 
@@ -570,8 +583,8 @@ function renderRouteOrder() {
         if (!killer) return '';
         return `<div class="kr-order-item" data-killer-id="${kid}" draggable="true">
             <span class="kr-order-num">${index + 1}</span>
-            <img src="${killer.image}" alt="${killer.name}">
-            <span class="kr-order-name">${killer.name.toUpperCase()}</span>
+             <img src="${killer.image}" alt="${tKiller(killer.name)}">
+             <span class="kr-order-name">${tKiller(killer.name).toUpperCase()}</span>
             <button class="kr-order-remove" data-killer-id="${kid}" title="Quitar">✕</button>
         </div>`;
     }).join('');
@@ -626,12 +639,12 @@ function renderPathSteps(route, currentStep) {
 
         const perksHtml = getPerksDisplayForStep(route, i);
 
-        html += `<div class="${nodeCls}">
+        html += `<div class="${nodeCls}" data-killer-id="${killer.id}">
             <div class="kr-path-node-circle">
-                <img src="${killer.image}" alt="${killer.name}">
+                <img src="${killer.image}" alt="${tKiller(killer.name)}">
                 <span class="kr-path-node-num">${i + 1}</span>
             </div>
-            <div class="kr-path-node-name">${killer.name.toUpperCase()}</div>
+            <div class="kr-path-node-name">${tKiller(killer.name).toUpperCase()}</div>
             <div class="kr-path-node-perks">${perksHtml}</div>
         </div>`;
 
@@ -656,7 +669,7 @@ function getPerksDisplayForStep(route, stepIndex) {
         const uniquePerks = KILLER_UNIQUE_PERKS[killer.name] || [];
         return uniquePerks.map(name => {
             const icon = getPerkIcon(name);
-            return `<span title="${name}">${icon}</span>`;
+            return `<span title="${tPerk(name)}">${icon}</span>`;
         }).join('');
     }
 
@@ -684,6 +697,7 @@ function renderCurrentChallenge(route, currentStep) {
 
     const step = route.killers[currentStep];
     const killer = KILLERS.find(k => k.id === step.id);
+    challengeEl.dataset.killerId = killer.id;
 
     if (!route.activeKiller) {
         portrait.classList.remove('active');
@@ -696,14 +710,15 @@ function renderCurrentChallenge(route, currentStep) {
     }
 
     portrait.classList.add('active');
-    portrait.innerHTML = `<img src="${killer.image}" alt="${killer.name}" style="width:100%;height:100%;object-fit:cover;border-radius:14px">`;
-    nameEl.textContent = killer.name;
+    const fb = killer.id === 43 ? '🔪' : '?';
+    portrait.innerHTML = `<img src="${killer.image}" alt="${tKiller(killer.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:14px" onerror="this.outerHTML='<div class=\\'killer-placeholder-fallback\\'>${fb}</div>'">`;
+    nameEl.textContent = tKiller(killer.name);
 
     const perks = route.activePerks || [];
     if (perks.length > 0) {
         perksEl.innerHTML = perks.map(name => {
             const icon = getPerkIcon(name);
-            return `<div class="perk-slot filled" title="${name}">${icon}<span class="perk-slot-name">${name}</span></div>`;
+            return `<div class="perk-slot filled" title="${tPerk(name)}">${icon}<span class="perk-slot-name">${tPerk(name)}</span></div>`;
         }).join('');
     } else if (route.challengeType === 'no_restriction') {
         perksEl.innerHTML = '<div style="font-family:var(--font-retro);font-size:9px;color:#888">SIN RESTRICCIÓN DE PERKS</div>';
@@ -736,11 +751,13 @@ function startChallenge() {
 
     const portrait = document.getElementById('krPortrait');
     portrait.classList.add('active');
-    portrait.innerHTML = `<img src="${killer.image}" alt="${killer.name}" style="width:100%;height:100%;object-fit:cover;border-radius:14px">`;
-    document.getElementById('krKillerName').textContent = killer.name;
+    const fb = killer.id === 43 ? '🔪' : '?';
+    portrait.dataset.killerId = killer.id;
+    portrait.innerHTML = `<img src="${killer.image}" alt="${tKiller(killer.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:14px" onerror="this.outerHTML='<div class=\\'killer-placeholder-fallback\\'>${fb}</div>'">`;
+    document.getElementById('krKillerName').textContent = tKiller(killer.name);
 
     renderPlayView();
-    showToast(`${killer.name.toUpperCase()} - Desafío iniciado`, 'info');
+    showToast(`${tKiller(killer.name).toUpperCase()} - Desafío iniciado`, 'info');
 }
 
 function markRouteWin() {
@@ -777,7 +794,7 @@ function markRouteWin() {
     saveState();
 
     playSound('advance');
-    showToast(`Avanzando al siguiente paso: ${nextKiller.name.toUpperCase()}`, 'success');
+    showToast(`Avanzando al siguiente paso: ${tKiller(nextKiller.name).toUpperCase()}`, 'success');
 
     renderPlayView();
     renderRoutesList();
@@ -847,6 +864,26 @@ function setupCreateViewListeners() {
         if (!removeBtn) return;
         const kid = parseInt(removeBtn.dataset.killerId);
         createState.selectedKillerIds = createState.selectedKillerIds.filter(id => id !== kid);
+        renderRouteOrder();
+    });
+
+    const routeOrder = document.getElementById('routeOrder');
+    routeOrder.addEventListener('dragstart', (e) => {
+        const item = e.target.closest('.kr-order-item');
+        if (item) e.dataTransfer.setData('text/plain', item.dataset.killerId);
+    });
+    routeOrder.addEventListener('dragover', (e) => e.preventDefault());
+    routeOrder.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const target = e.target.closest('.kr-order-item');
+        const draggedId = Number(e.dataTransfer.getData('text/plain'));
+        if (!target || !draggedId) return;
+        const targetId = Number(target.dataset.killerId);
+        const from = createState.selectedKillerIds.indexOf(draggedId);
+        const to = createState.selectedKillerIds.indexOf(targetId);
+        if (from === -1 || to === -1 || from === to) return;
+        createState.selectedKillerIds.splice(from, 1);
+        createState.selectedKillerIds.splice(to, 0, draggedId);
         renderRouteOrder();
     });
 
@@ -958,6 +995,7 @@ function init() {
 
     setupCreateViewListeners();
     setupPlayViewListeners();
+    setupLockedNav();
 
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
         overlay.addEventListener('click', (e) => {
@@ -966,6 +1004,15 @@ function init() {
     });
 
     renderRoutesList();
+}
+
+function setupLockedNav() {
+    document.querySelectorAll('[data-locked]').forEach(el => {
+        el.addEventListener('click', (e) => {
+            e.preventDefault();
+            showToast('🚧 En construcción — disponible próximamente', 'warning');
+        });
+    });
 }
 
 document.addEventListener('DOMContentLoaded', init);

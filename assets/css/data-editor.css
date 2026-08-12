@@ -1,0 +1,271 @@
+.editor-shell .subpage-main { padding-top: 36px; }
+.editor-badge {
+    padding: 7px 10px;
+    border: 1px solid var(--hub-yellow);
+    color: var(--hub-yellow);
+    font: 8px var(--font-display);
+    letter-spacing: 1px;
+}
+.editor-hero {
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    gap: 40px;
+    align-items: end;
+    margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--hub-line);
+}
+.editor-hero h1 {
+    margin: 14px 0;
+    font: 600 clamp(2.2rem, 5vw, 4.5rem)/1 var(--font-display);
+    letter-spacing: -.08em;
+}
+.editor-hero h1 span { color: var(--hub-red); }
+.editor-hero p { max-width: 560px; color: var(--hub-muted); font-size: 14px; line-height: 1.7; }
+.editor-hero code, .editor-hint code { color: var(--hub-paper); }
+.editor-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+.editor-stats div {
+    padding: 16px;
+    border: 1px solid var(--hub-line);
+    background: #111315;
+}
+.editor-stats strong {
+    display: block;
+    margin-bottom: 6px;
+    font: 600 24px var(--font-display);
+}
+.editor-stats span {
+    color: var(--hub-muted);
+    font: 8px var(--font-display);
+    letter-spacing: 1px;
+}
+.editor-layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+.editor-sidebar,
+.editor-workspace {
+    border: 1px solid var(--hub-line);
+    background: rgba(20, 22, 23, .78);
+}
+.editor-sidebar-head {
+    padding: 16px;
+    border-bottom: 1px solid var(--hub-line);
+}
+.editor-sidebar-head label,
+.editor-form legend {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--hub-muted);
+    font: 9px var(--font-display);
+    letter-spacing: 1px;
+}
+.editor-sidebar-head input,
+.editor-form input,
+.editor-form select,
+.editor-form textarea,
+.editor-export-box {
+    width: 100%;
+    border: 1px solid var(--hub-line);
+    border-radius: 0;
+    background: #0d0f10;
+    color: var(--hub-paper);
+    font: 13px var(--font-mono);
+    padding: 11px 12px;
+}
+.editor-sidebar-head input:focus,
+.editor-form input:focus,
+.editor-form select:focus,
+.editor-form textarea:focus {
+    outline: none;
+    border-color: var(--hub-red);
+}
+.editor-filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+}
+.editor-chip {
+    border: 1px solid var(--hub-line);
+    background: transparent;
+    color: var(--hub-muted);
+    padding: 6px 8px;
+    cursor: pointer;
+    font: 8px var(--font-display);
+    letter-spacing: .5px;
+}
+.editor-chip.active,
+.editor-chip:hover {
+    border-color: var(--hub-red);
+    color: #fff;
+    background: rgba(226, 59, 47, .18);
+}
+.editor-killer-list {
+    max-height: min(72vh, 820px);
+    overflow: auto;
+}
+.editor-killer-item {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 42px 1fr auto;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 12px;
+    border: 0;
+    border-bottom: 1px solid var(--hub-line);
+    background: transparent;
+    color: var(--hub-paper);
+    text-align: left;
+    cursor: pointer;
+}
+.editor-killer-item:hover,
+.editor-killer-item.active {
+    background: rgba(226, 59, 47, .12);
+}
+.editor-killer-item img {
+    width: 42px;
+    height: 42px;
+    object-fit: cover;
+    border: 1px solid var(--hub-line);
+}
+.editor-killer-item strong {
+    display: block;
+    font: 11px var(--font-display);
+}
+.editor-killer-item small {
+    color: var(--hub-muted);
+    font: 10px var(--font-mono);
+}
+.editor-status {
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid var(--hub-line);
+}
+.editor-status.empty { background: transparent; }
+.editor-status.partial { background: var(--hub-yellow); border-color: var(--hub-yellow); }
+.editor-status.complete { background: #4ade80; border-color: #4ade80; }
+.editor-toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--hub-line);
+}
+.editor-selected {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    min-width: 0;
+}
+.editor-selected img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border: 1px solid var(--hub-red);
+    background: #090a0c;
+}
+.editor-selected h2 {
+    margin: 4px 0 0;
+    font: 600 clamp(1.2rem, 2vw, 1.8rem) var(--font-display);
+    letter-spacing: -.05em;
+}
+.editor-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.editor-form {
+    padding: 16px;
+    display: grid;
+    gap: 16px;
+}
+.editor-form fieldset {
+    margin: 0;
+    padding: 16px;
+    border: 1px solid var(--hub-line);
+}
+.editor-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+.editor-grid-wide { grid-template-columns: 1fr; }
+.editor-form label {
+    display: grid;
+    gap: 7px;
+    color: var(--hub-muted);
+    font: 10px var(--font-display);
+    letter-spacing: .5px;
+}
+.editor-form label.full { grid-column: 1 / -1; }
+.editor-form textarea { resize: vertical; min-height: 90px; }
+.editor-image-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+.editor-image-preview img {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border: 1px solid var(--hub-line);
+    background: #090a0c;
+}
+.editor-export {
+    padding: 16px;
+    border-top: 1px solid var(--hub-line);
+}
+.editor-export-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: end;
+    margin-bottom: 12px;
+}
+.editor-export-head h3 {
+    margin: 8px 0;
+    font: 600 18px var(--font-display);
+}
+.editor-export-head p,
+.editor-hint {
+    color: var(--hub-muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+.editor-export-box {
+    min-height: 280px;
+    font-size: 11px;
+    line-height: 1.5;
+}
+.editor-hint { margin-top: 10px; }
+@media (max-width: 980px) {
+    .editor-hero,
+    .editor-layout,
+    .editor-toolbar,
+    .editor-export-head {
+        grid-template-columns: 1fr;
+        display: grid;
+    }
+    .editor-toolbar,
+    .editor-export-head {
+        align-items: start;
+    }
+    .editor-killer-list {
+        max-height: 320px;
+    }
+}
+@media (max-width: 640px) {
+    .editor-grid { grid-template-columns: 1fr; }
+    .editor-actions { width: 100%; }
+    .editor-actions .btn { flex: 1; }
+}

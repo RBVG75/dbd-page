@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBD Random Perks Only | Dead by Daylight Roulette Challenge</title>
+    <meta name="description" content="Randomiza solo las perks en Dead by Daylight. Elige entre perks de killer o superviviente, ruleta con 4 perks aleatorias. DBD roulette puro.">
+    <meta name="robots" content="index, follow, max-snippet:160, max-image-preview:large">
+    <link rel="canonical" href="https://rbvg75.github.io/dbd-page/random-perks.html">
+    <meta property="og:title" content="DBD Random Perks Only | Dead by Daylight Roulette">
+    <meta property="og:description" content="Randomiza perks sueltas de killer o superviviente para Dead by Daylight. 4 perks aleatorias con animación de ruleta.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rbvg75.github.io/dbd-page/random-perks.html">
+    <meta property="og:locale" content="es_ES">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DBD Random Perks Only - Roulette">
+    <meta name="twitter:description" content="Randomizador de perks puras para DBD. Killer o Survivor, 4 perks, ruleta infernal.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/random-perks.css">
+    <link rel="stylesheet" href="assets/css/hub-tools.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "DBD Random Perks Only - Dead by Daylight",
+      "url": "https://rbvg75.github.io/dbd-page/random-perks.html",
+      "description": "Randomiza solo las perks (killer o superviviente) para Dead by Daylight.",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "es"
+    }
+    </script>
+</head>
+<body>
+    <div class="app-container subpage-shell">
+        <header class="top-bar site-header">
+            <a class="brand-lockup" href="index.html"><span class="brand-mark">✦</span><span><strong>LA NIEBLA</strong><small>DBD CHALLENGE HUB</small></span></a>
+            <nav class="site-nav" aria-label="Navegación principal"><a href="index.html">INICIO</a><a href="random-perks.html" aria-current="page">PERKS</a><a href="unique-killer.html">KILLERS</a><a href="killer-routes.html">RUTAS</a></nav>
+            <div class="header-actions"><div class="language-switcher" role="group" aria-label="Variante del español"><button type="button" data-language="es-ES">ES-ES</button><button type="button" data-language="es-LATAM">LATAM</button></div><div class="user-section"><button class="user-avatar" id="userAvatar" title="Jugador">?</button><span class="user-name">Jugador</span></div><button class="icon-button config-btn" id="configBtn" title="Configuración" aria-label="Abrir configuración">⚙</button></div>
+        </header>
+
+        <main class="rp-main subpage-main">
+            <section class="subpage-hero"><div><p class="eyebrow">01 / LABORATORIO DE BUILDS</p><h1>CUATRO CARTAS.<br><span>UNA BUILD.</span></h1><p>Elimina el piloto automático. Selecciona un bando, gira la ruleta y convierte perks que nunca usarías en tu próxima historia.</p></div><div class="subpage-console-head"><span>GENERADOR DE CARGAS</span><strong>RNG ONLINE</strong></div></section>
+            <div class="rp-tabs" role="tablist">
+                <button class="rp-tab active" data-side="killer" role="tab" aria-selected="true">
+                    <span class="rp-tab-icon">🔪</span>
+                    <span class="rp-tab-label">KILLER PERKS</span>
+                    <span class="rp-tab-count" id="killerPerksCount">0</span>
+                </button>
+                <button class="rp-tab" data-side="survivor" role="tab" aria-selected="false">
+                    <span class="rp-tab-icon">🏃</span>
+                    <span class="rp-tab-label">SURVIVOR PERKS</span>
+                    <span class="rp-tab-count" id="survivorPerksCount">0</span>
+                </button>
+            </div>
+
+            <div class="rp-arena">
+                <div class="rp-side-label" id="rpSideLabel">KILLER</div>
+
+                <div class="rp-perks-grid" id="rpPerksGrid">
+                    <div class="rp-perk-slot empty" data-index="0">
+                        <span class="rp-perk-spinner">?</span>
+                    </div>
+                    <div class="rp-perk-slot empty" data-index="1">
+                        <span class="rp-perk-spinner">?</span>
+                    </div>
+                    <div class="rp-perk-slot empty" data-index="2">
+                        <span class="rp-perk-spinner">?</span>
+                    </div>
+                    <div class="rp-perk-slot empty" data-index="3">
+                        <span class="rp-perk-spinner">?</span>
+                    </div>
+                </div>
+
+                <div class="rp-current-stats">
+                    <div class="rp-stat">
+                        <span class="rp-stat-label">LADO</span>
+                        <span class="rp-stat-value" id="rpCurrentSide">KILLER</span>
+                    </div>
+                    <div class="rp-stat">
+                        <span class="rp-stat-label">TIRADAS</span>
+                        <span class="rp-stat-value" id="rpRollCount">0</span>
+                    </div>
+                    <div class="rp-stat">
+                        <span class="rp-stat-label">ÚLTIMA</span>
+                        <span class="rp-stat-value" id="rpLastSide">—</span>
+                    </div>
+                </div>
+
+                <div class="rp-actions">
+                    <button class="btn btn-rp-randomize" id="btnRpRandomize">
+                        <span class="randomize-icon">🎲</span>
+                        <span class="btn-rp-text">RANDOMIZAR PERKS</span>
+                    </button>
+                    <button class="btn btn-rp-reroll" id="btnRpReroll" title="Re-roll de un solo slot" disabled>
+                        <span class="btn-rp-icon">🎯</span>
+                        <span class="btn-rp-text">REROLL SLOT</span>
+                    </button>
+                    <button class="btn btn-rp-clear" id="btnRpClear" title="Limpiar slots">
+                        <span class="btn-rp-icon">🗑️</span>
+                        <span class="btn-rp-text">LIMPIAR</span>
+                    </button>
+                    <button class="btn btn-rp-pool" id="btnRpPool" type="button" title="Elegir perks disponibles">
+                        <span class="btn-rp-icon">⚙</span>
+                        <span class="btn-rp-text">EDITAR POOL</span>
+                    </button>
+                </div>
+            </div>
+
+            <section class="rp-history" id="rpHistorySection" style="display:none">
+                <h3 class="rp-section-title">🩸 ÚLTIMAS TIRADAS</h3>
+                <div class="rp-history-list" id="rpHistoryList"></div>
+            </section>
+        </main>
+        <footer class="site-footer"><div><span class="brand-mark">✦</span><strong>LA NIEBLA</strong></div><p>Una build extraña también es una build.</p><div class="footer-links"><a href="index.html">INICIO</a><a href="unique-killer.html">KILLERS</a><a href="killer-routes.html">RUTAS</a></div></footer>
+    </div>
+
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <h2 class="modal-title">⚙ CONFIGURACIÓN</h2>
+            <div class="modal-content">
+                <div class="setting-row">
+                    <label>Sonidos</label>
+                    <button class="toggle-btn" id="toggleSound">ON</button>
+                </div>
+                <div class="setting-row">
+                    <label>Animación de ruleta</label>
+                    <button class="toggle-btn" id="toggleAnim">ON</button>
+                </div>
+            </div>
+            <button class="btn btn-close" id="closeSettings">CERRAR</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="poolModal">
+        <div class="modal rp-pool-modal" role="dialog" aria-modal="true" aria-labelledby="poolModalTitle">
+            <div class="rp-pool-header">
+                <div>
+                    <p class="eyebrow">CONFIGURACIÓN DE LA RULETA</p>
+                    <h2 class="modal-title" id="poolModalTitle">POOL DE PERKS</h2>
+                </div>
+                <button class="icon-button" id="closePool" type="button" aria-label="Cerrar configuración de pool">×</button>
+            </div>
+            <p class="rp-pool-help" id="poolHelp">Desmarca las perks que no quieras encontrar en la ruleta. Deben quedar al menos 4 disponibles.</p>
+            <div class="rp-pool-toolbar">
+                <label for="poolSearch">Buscar perk</label>
+                <input id="poolSearch" type="search" name="pool-search" autocomplete="off" placeholder="Escribe para filtrar..." aria-describedby="poolHelp">
+                <button class="btn btn-pool-reset" id="resetPool" type="button">RESTAURAR TODAS</button>
+            </div>
+            <form id="poolForm">
+                <fieldset>
+                    <legend id="poolLegend">Perks disponibles</legend>
+                    <div class="rp-pool-list" id="poolList"></div>
+                </fieldset>
+            </form>
+            <button class="btn btn-close" id="closePoolBottom" type="button">CERRAR</button>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="assets/js/perks-shared.js"></script>
+    <script src="assets/js/random-perks.js"></script>
+    <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/killer-lore.js"></script>
+    <script src="assets/js/status-lore.js"></script>
+</body>
+</html>

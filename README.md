@@ -1,26 +1,52 @@
-# DBD Randomizer — Desafío de Perks
+# La Niebla · DBD Challenge Hub
 
-Randomizador de killers y perks de **Dead by Daylight** para desafíos personalizados. Progreso guardado en `localStorage`.
+Hub estático de **Dead by Daylight** construido con HTML, CSS y JavaScript vanilla. Incluye retos, randomizadores, archivo de killers, páginas individuales y documentación de estados del juego.
 
-## Reto Principal (`index.html`)
+## Contexto Vivo
 
-- Selecciona un killer al azar y te asigna 4 perks aleatorias
-- Gestioná tu progreso: marcá victorias/derrotas por cada killer
-- Barra de progreso general (42 killers)
+La documentación completa del proyecto está en [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md).
 
-## Desafío Killer Único (`unique-killer.html`)
+Ese archivo contiene:
 
-- Randomiza un killer y muestra sus 3 perks únicas directamente
-- Historial persistente de killers randomizados
-- Sin modal de revelación — perks visibles al instante
+- Historial de cambios recientes.
+- Mapa de páginas y scripts.
+- Lugares donde editar killers, perks, poderes e imágenes.
+- Funcionamiento de cada herramienta.
+- Convenciones para mantener el proyecto entre sesiones.
 
-## Tecnologías
+## Páginas
 
-- HTML + CSS + JS vanilla
-- Sin dependencias externas ni frameworks
-- Sin backend — todo en el navegador
-- Iconos de perks en `images/perks_killers/`
+- `index.html`: hub principal, ruleta de killers/perks, archivo de killers, estados y retos rápidos.
+- `killer.html?id=1`: plantilla individual reutilizable para cualquier killer.
+- `unique-killer.html`: killer aleatorio con perks random o perks únicas.
+- `random-perks.html`: ruleta independiente de perks de killer y superviviente.
+- `killer-routes.html`: creación y ejecución de rutas personalizadas.
 
-## Cómo usar
+La tierlist fue eliminada del proyecto.
 
-Abrí `index.html` en cualquier navegador o hostealo estáticamente. No requiere build ni servidor.
+## Editor De Datos
+
+Usa `data-editor.html` para rellenar killers sin tocar código:
+
+1. Abre `data-editor.html`.
+2. Selecciona un killer.
+3. Completa velocidad, altura, dificultad, radio, poder, estilo y notas.
+4. Pulsa **GUARDAR** (se guarda en el navegador).
+5. Pulsa **COPIAR JS** o **DESCARGAR .JS**.
+6. Pega el resultado en `assets/js/killer-details-data.js`.
+
+## Datos Editables
+
+- `assets/js/killer-details-data.js`: datos técnicos, poderes, descripciones, notas e imágenes de poderes.
+- `assets/js/i18n.js`: nombres de killers, nombres de perks y variantes `ES-ES` / `ES-LATAM`.
+- `assets/js/app.js`: roster principal, perks, perks únicas y lógica de la ruleta.
+- `assets/images/poderes_killers/`: imágenes de poderes; un poder puede tener varias.
+- `assets/images/perks_killers/`: iconos de perks.
+
+## Ejecución
+
+Abrir `index.html` directamente en un navegador o servir la carpeta con cualquier servidor estático. No requiere build, backend ni dependencias de npm.
+
+## Regla De Mantenimiento
+
+Cada modificación funcional, visual, de datos o de assets debe registrarse inmediatamente en [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md), dentro de `Historial de Cambios`, incluyendo fecha, archivos afectados y una descripción breve.

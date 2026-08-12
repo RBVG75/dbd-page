@@ -40,7 +40,9 @@ const KILLERS = [
     { id: 39, name: "The Ghoul", image: "assets/images/killers/K39_TheGhoul_Portrait.webp" },
     { id: 40, name: "The Animatronic", image: "assets/images/killers/K40_TheAnimatronic_Portrait.webp" },
     { id: 41, name: "The Krasue", image: "assets/images/killers/K41_TheKrasue_Portrait.webp" },
-    { id: 42, name: "The First", image: "assets/images/killers/K42_TheFirst_Portrait.webp" }
+    { id: 42, name: "The First", image: "assets/images/killers/K42_TheFirst_Portrait.webp" },
+    { id: 43, name: "Jason Voorhees", image: "assets/images/killers/K43_TheSlasher_Portrait.webp" },
+    { id: 44, name: "The Judgment", image: "assets/images/killers/K44_TheJudgment_Portrait.webp" }
 ];
 
 const PERKS = [
@@ -155,14 +157,20 @@ const PERKS = [
     { id: 110, name: "Unnerving Presence", icon: "😵" },
     { id: 111, name: "Unrelenting", icon: "😤" },
     { id: 112, name: "Whispers", icon: "🤫" },
-    { id: 113, name: "Zanshin Tactics", icon: "🗺️" }
+    { id: 113, name: "Zanshin Tactics", icon: "🗺️" },
+    { id: 114, name: "Hex: Scared to Death", icon: "😱" },
+    { id: 115, name: "Rampage", icon: "🪓" },
+    { id: 116, name: "Silent Shadow", icon: "🌑" },
+    { id: 117, name: "Celestial Witness", icon: "⭐" },
+    { id: 118, name: "Hex: Under Your Thumb", icon: "👎" },
+    { id: 119, name: "Lay Waste", icon: "💀" }
 ];
 const PERK_IMAGE_MAP = {
     "A Nurse's Calling":"IconPerks_aNursesCalling","Agitation":"IconPerks_agitation","Alien Instinct":"AlienInstinct",
     "All-Shaking Thunder":"AllShakingThunder","Awakened Awareness":"AwakenedAwarenesss","Bamboozle":"Bamboozle",
     "Barbecue & Chili":"BBQAndChili","Batteries Included":"BatteriesIncluded","Beast of Prey":"BeastOfPrey",
     "Bitter Murmur":"IconPerks_bitterMurmur","Blood Echo":"BloodEcho","Blood Favor":"IconPerks_hexBloodFavour",
-    "Blood Warden":"BloodWarden","Bloodhound":"IconPerks_bloodhound","Boon of Shadows":"IconPerks_boonShadowStep",
+    "Blood Warden":"BloodWarden","Bloodhound":"IconPerks_bloodhound","Turn Back the Clock":"TurnBackTheClock",
     "Brutal Strength":"IconPerks_brutalStrength","Call of Brine":"CallOfBrine","Corrupt Intervention":"CorruptIntervention",
     "Coulrophobia":"Coulrophobia","Coup de Grâce":"CoupDeGrace","Cruel Limits":"CruelLimits","Dark Arrogance":"DarkArrogance",
     "Dark Devotion":"DarkDevotion","Darkness Revealed":"DarknessRevelated","Dead Man's Switch":"DeadManSwitch",
@@ -201,14 +209,16 @@ const PERK_IMAGE_MAP = {
     "Tinkerer":"IconPerks_tinkerer","Trail of Torment":"TrailOfTorment","Two Can Play":"TwoCanPlay",
     "Ultimate Weapon":"UltimateWeapon","Unbound":"Unbound","Undone":"Undone","Unforeseen":"Unforeseen","Undying":"HexUndying",
     "Unnerving Presence":"IconPerks_unnervingPresence","Unrelenting":"IconPerks_unrelenting","Weave Attunement":"WeaveAttunement",
-    "Wandering Eye":"WanderingEye","Whispers":"IconPerks_whispers","Zanshin Tactics":"ZanshinTactics"
+    "Wandering Eye":"WanderingEye","Whispers":"IconPerks_whispers","Zanshin Tactics":"ZanshinTactics",
+    "Hex: Scared to Death":"HexScaredToDeath","Rampage":"Rampage","Silent Shadow":"SilentShadow",
+    "Celestial Witness":"CelestialWitness","Hex: Under Your Thumb":"HexUnderYourThumb","Lay Waste":"LayWaste"
 };
 function perkNameToImageFile(name) {
     return PERK_IMAGE_MAP[name] || null;
 }
 function getPerkIcon(name) {
     const file = perkNameToImageFile(name);
-    if (file) return `<img src="assets/images/perks_killers/${file}.png" alt="${name}" class="perk-image">`;
+    if (file) return `<img src="assets/images/perks_killers/${file}.png" alt="${name}" class="perk-image" onerror="this.outerHTML='<span class=\'perk-fallback\'>❓</span>'">`;
     const perkObj = PERKS.find(p => p.name === name);
     return perkObj ? perkObj.icon : '❓';
 }
@@ -422,7 +432,19 @@ const KILLER_UNIQUE_PERKS = {
     "The First": [
         "Hex: Hive Mind",
         "Secret Project",
-        "Boon of Shadows"
+        "Turn Back the Clock"
+    ],
+
+    "Jason Voorhees": [
+        "Hex: Scared to Death",
+        "Rampage",
+        "Silent Shadow"
+    ],
+
+    "The Judgment": [
+        "Celestial Witness",
+        "Hex: Under Your Thumb",
+        "Lay Waste"
     ]
 };
 
@@ -431,7 +453,8 @@ const UK_STORAGE_KEY = 'dbd_unique_killer_challenge_v1';
 let ukState = {
     history: [],
     isRandomizing: false,
-    soundEnabled: true
+    soundEnabled: true,
+    mode: 'random'
 };
 
 let audioCtx = null;
@@ -499,7 +522,8 @@ function saveState() {
     try {
         localStorage.setItem(UK_STORAGE_KEY, JSON.stringify({
             history: ukState.history,
-            soundEnabled: ukState.soundEnabled
+            soundEnabled: ukState.soundEnabled,
+            mode: ukState.mode
         }));
     } catch (e) {}
 }
@@ -511,6 +535,7 @@ function loadState() {
             const parsed = JSON.parse(stored);
             ukState.history = parsed.history || [];
             ukState.soundEnabled = parsed.soundEnabled !== undefined ? parsed.soundEnabled : true;
+            ukState.mode = parsed.mode === 'experto' ? 'experto' : 'random';
         }
     } catch (e) {}
 }
@@ -539,33 +564,48 @@ function renderHistory() {
     listEl.innerHTML = ukState.history.slice().reverse().map(entry => {
         const killer = KILLERS.find(k => k.id === entry.killerId);
         if (!killer) return '';
-        const perks = KILLER_UNIQUE_PERKS[killer.name] || [];
+        const perks = entry.perks || KILLER_UNIQUE_PERKS[killer.name] || [];
         const perkImages = perks.map(pn => {
+            if (pn === SKIP_PERK) {
+                return `<span class="uk-history-perk-skip" title="Opcional">✕</span>`;
+            }
             const html = getPerkIcon(pn);
-            return `<span title="${pn}">${html}</span>`;
+            return `<span title="${tPerk(pn)}">${html}</span>`;
         }).join(' ');
 
-        return `<div class="uk-history-item"
-                     onmouseenter="showHistTooltip(event, ${killer.id})"
+        const modeTag = entry.mode === 'random'
+            ? '<span class="uk-history-mode uk-history-mode-random">R</span>'
+            : '<span class="uk-history-mode uk-history-mode-experto">E</span>';
+
+        return `<div class="uk-history-item" data-killer-id="${killer.id}"
+                     onmouseenter="showHistTooltip(event, ${killer.id}, ${JSON.stringify(perks).replace(/"/g, '&quot;')}, '${entry.mode || 'experto'}')"
                      onmouseleave="hideTooltip()">
-                    <img src="${killer.image}" alt="${killer.name}">
-                    <span class="uk-history-item-name">${killer.name.toUpperCase()}</span>
+                    <img src="${killer.image}" alt="${tKiller(killer.name)}" onerror="this.outerHTML='<div class=\\'killer-placeholder-fallback\\' style=\\'width:100%;height:100%;font-size:24px;\\'>🔪</div>'">
+                    <span class="uk-history-item-name">${tKiller(killer.name).toUpperCase()}</span>
                     <span class="uk-history-item-perks">${perkImages}</span>
+                    ${modeTag}
                 </div>`;
     }).join('');
 
     statsEl.textContent = `${ukState.history.length} killer${ukState.history.length !== 1 ? 's' : ''} randomizado${ukState.history.length !== 1 ? 's' : ''}`;
 }
 
-function showHistTooltip(event, killerId) {
+function showHistTooltip(event, killerId, perksOverride, modeOverride) {
     const killer = KILLERS.find(k => k.id === killerId);
-    const perks = KILLER_UNIQUE_PERKS[killer.name] || [];
+    const perks = perksOverride || KILLER_UNIQUE_PERKS[killer.name] || [];
+    const mode = modeOverride || 'experto';
+    const modeLabel = mode === 'random' ? 'PERKS RANDOM' : 'PERKS ÚNICAS';
 
     const tooltip = document.getElementById('tooltip');
     tooltip.innerHTML = `
-        <div class="tooltip-name"><img src="${killer.image}" alt="${killer.name}" style="width:24px;height:24px;border-radius:4px;vertical-align:middle;margin-right:6px">${killer.name}</div>
-        <div style="margin-top:6px;font-family:var(--font-retro);font-size:7px;color:#888;letter-spacing:1px;margin-bottom:4px;">PERKS ÚNICAS</div>
-        ${perks.map(p => `<div class="tooltip-stat"><span style="color:#aaa">${p}</span></div>`).join('')}
+        <div class="tooltip-name"><img src="${killer.image}" alt="${tKiller(killer.name)}" style="width:24px;height:24px;border-radius:4px;vertical-align:middle;margin-right:6px">${tKiller(killer.name)}</div>
+        <div style="margin-top:6px;font-family:var(--font-retro);font-size:7px;color:#888;letter-spacing:1px;margin-bottom:4px;">${modeLabel}</div>
+        ${perks.map(p => {
+            if (p === SKIP_PERK) {
+                return `<div class="tooltip-stat"><span style="color:#888;font-style:italic;">✕ Opcional (puedes saltar)</span></div>`;
+            }
+            return `<div class="tooltip-stat"><span style="color:#aaa">${tPerk(p)}</span></div>`;
+        }).join('')}
     `;
     tooltip.classList.add('visible');
 
@@ -581,6 +621,22 @@ function showHistTooltip(event, killerId) {
 
 function hideTooltip() {
     document.getElementById('tooltip').classList.remove('visible');
+}
+
+const SKIP_PERK = '__SKIP__';
+const SKIP_PROBABILITY = 0.05;
+
+function pickRandomPerks(count) {
+    const pool = PERKS.slice();
+    const result = [];
+    for (let i = 0; i < count && pool.length > 0; i++) {
+        const idx = Math.floor(Math.random() * pool.length);
+        result.push(pool.splice(idx, 1)[0].name);
+    }
+    if (result.length > 0 && Math.random() < SKIP_PROBABILITY) {
+        result[result.length - 1] = SKIP_PERK;
+    }
+    return result;
 }
 
 async function randomizeUniqueKiller() {
@@ -603,8 +659,9 @@ async function randomizeUniqueKiller() {
         function doCycle() {
             if (cycleCount >= totalCycles) { resolve(); return; }
             const rk = KILLERS[Math.floor(Math.random() * KILLERS.length)];
-            portrait.innerHTML = `<img src="${rk.image}" alt="${rk.name}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;opacity:0.7">`;
-            nameEl.textContent = rk.name;
+            const fb = rk.id === 43 ? '🔪' : '?';
+             portrait.innerHTML = `<img src="${rk.image}" alt="${tKiller(rk.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;opacity:0.7" onerror="this.outerHTML='<div class=\\'killer-placeholder-fallback\\' style=\\'opacity:0.7\\'>${fb}</div>'">`;
+             nameEl.textContent = tKiller(rk.name);
             playSound('cycle');
             cycleCount++;
             const delay = 40 + (cycleCount * 8);
@@ -613,19 +670,32 @@ async function randomizeUniqueKiller() {
         doCycle();
     });
 
-    portrait.innerHTML = `<img src="${selectedKiller.image}" alt="${selectedKiller.name}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">`;
-    nameEl.textContent = selectedKiller.name;
+    const selectedFb = selectedKiller.id === 43 ? '🔪' : '?';
+    portrait.dataset.killerId = selectedKiller.id;
+    portrait.innerHTML = `<img src="${selectedKiller.image}" alt="${tKiller(selectedKiller.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:12px" onerror="this.outerHTML='<div class=\\'killer-placeholder-fallback\\'>${selectedFb}</div>'">`;
+    nameEl.textContent = tKiller(selectedKiller.name);
 
     playSound('select');
 
-    const perks = KILLER_UNIQUE_PERKS[selectedKiller.name] || [];
-    ukState.history.push({ killerId: selectedKiller.id });
+    const perks = ukState.mode === 'experto'
+        ? (KILLER_UNIQUE_PERKS[selectedKiller.name] || [])
+        : pickRandomPerks(4);
+
+    ukState.history.push({
+        killerId: selectedKiller.id,
+        mode: ukState.mode,
+        perks: perks
+    });
 
     renderPerksSection(selectedKiller, perks);
     renderHistory();
     saveState();
 
-    showToast(`${selectedKiller.name.toUpperCase()} - ${perks.length} perks únicas`, 'success');
+    const modeTag = ukState.mode === 'experto' ? 'EXPERTO' : 'RANDOM';
+    const hasOptional = perks.includes(SKIP_PERK);
+    const realCount = perks.filter(p => p !== SKIP_PERK).length;
+    const optionalTag = hasOptional ? ' (1 OPCIONAL)' : '';
+    showToast(`${tKiller(selectedKiller.name).toUpperCase()} - ${realCount} perks [${modeTag}]${optionalTag}`, 'success');
 
     ukState.isRandomizing = false;
     document.getElementById('btnRandomizeUnique').disabled = false;
@@ -645,30 +715,68 @@ function renderPerksSection(killer, perks) {
     }
 
     perksList.innerHTML = perks.map(perkName => {
+        if (perkName === SKIP_PERK) {
+            return `<div class="uk-perk-item uk-perk-item-skip" title="Puedes saltarte esta perk">
+                        <span class="uk-perk-icon uk-perk-icon-skip">✕</span>
+                        <div class="uk-perk-text">
+                            <span class="uk-perk-name uk-perk-name-skip">OPCIONAL - PUEDES SALTAR</span>
+                        </div>
+                    </div>`;
+        }
         const icon = getPerkIcon(perkName);
         return `<div class="uk-perk-item">
                     <span class="uk-perk-icon">${icon}</span>
                     <div class="uk-perk-text">
-                        <span class="uk-perk-name">${perkName.toUpperCase()}</span>
+                        <span class="uk-perk-name">${tPerk(perkName).toUpperCase()}</span>
                     </div>
                 </div>`;
     }).join('');
 }
 
+function setMode(mode, persist = true) {
+    ukState.mode = mode === 'experto' ? 'experto' : 'random';
+    const toggle = document.getElementById('ukModeToggle');
+    toggle.classList.toggle('experto', ukState.mode === 'experto');
+
+    document.getElementById('ukModeRandom').classList.toggle('active', ukState.mode === 'random');
+    document.getElementById('ukModeExperto').classList.toggle('active', ukState.mode === 'experto');
+    document.getElementById('ukModeRandom').setAttribute('aria-selected', ukState.mode === 'random');
+    document.getElementById('ukModeExperto').setAttribute('aria-selected', ukState.mode === 'experto');
+
+    document.getElementById('ukPerksTitle').textContent =
+        ukState.mode === 'experto' ? 'PERKS ÚNICAS' : 'PERKS RANDOM';
+
+    if (persist) saveState();
+}
+
 function init() {
     loadState();
     updateSoundBtn();
+    setMode(ukState.mode, false);
     renderHistory();
+    setupLockedNav();
 
     const perksList = document.getElementById('ukPerksList');
     perksList.innerHTML = '<div class="uk-perk-empty">Presiona RANDOMIZAR para comenzar</div>';
 
     document.getElementById('btnRandomizeUnique').addEventListener('click', randomizeUniqueKiller);
 
+    document.getElementById('ukModeRandom').addEventListener('click', () => setMode('random'));
+    document.getElementById('ukModeExperto').addEventListener('click', () => setMode('experto'));
+
     document.getElementById('configBtn').addEventListener('click', () => {
         ukState.soundEnabled = !ukState.soundEnabled;
         updateSoundBtn();
         saveState();
+    });
+}
+
+function setupLockedNav() {
+    document.querySelectorAll('[data-locked]').forEach(el => {
+        el.addEventListener('click', (e) => {
+            e.preventDefault();
+            showToast('🚧 En construcción — disponible próximamente', 'warning');
+        });
     });
 }
 

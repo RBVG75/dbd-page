@@ -1,0 +1,882 @@
+.rp-nav-links {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.rp-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 4px;
+}
+
+/* ===== TABS ===== */
+.rp-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    background: linear-gradient(180deg, #0a0a10 0%, #050508 100%);
+    border: var(--border-thick) solid var(--border-rust);
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: var(--shadow-retro), var(--shadow-deep), inset 0 0 20px rgba(0, 0, 0, 0.6);
+    position: relative;
+    overflow: hidden;
+}
+
+.rp-tabs::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-blood-bright), transparent);
+    opacity: 0.5;
+}
+
+.rp-tab {
+    background: linear-gradient(180deg, #0c0c12 0%, #050508 100%);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    color: #5a4a4a;
+    font-family: var(--font-retro);
+    font-size: 11px;
+    padding: 14px 12px;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: 2px;
+    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.8);
+    position: relative;
+    overflow: hidden;
+}
+
+.rp-tab-icon {
+    font-size: 18px;
+    line-height: 1;
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.8));
+}
+
+.rp-tab-label {
+    flex: 1;
+    text-align: center;
+}
+
+.rp-tab-count {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--border-rust);
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: 8px;
+    color: #6a5a5a;
+    min-width: 28px;
+    text-align: center;
+}
+
+.rp-tab:hover {
+    background: linear-gradient(180deg, #1a0a0a 0%, #0a0204 100%);
+    color: var(--color-blood-bright);
+    border-color: var(--color-blood);
+    box-shadow: 0 0 12px var(--color-blood-glow), inset 0 0 12px rgba(139, 0, 0, 0.2);
+}
+
+.rp-tab.active[data-side="killer"] {
+    background: linear-gradient(180deg, #2a0a0e 0%, #1a0508 100%);
+    border-color: var(--color-blood-bright);
+    color: var(--color-blood-bright);
+    text-shadow: 0 0 6px var(--color-blood-glow);
+    box-shadow:
+        0 0 20px var(--color-blood-glow),
+        inset 0 0 15px rgba(139, 0, 0, 0.3);
+    animation: tabBloodPulse 2.5s ease-in-out infinite;
+}
+
+.rp-tab.active[data-side="survivor"] {
+    background: linear-gradient(180deg, #0a1a0c 0%, #050a06 100%);
+    border-color: var(--color-toxic);
+    color: var(--color-toxic-bright);
+    text-shadow: 0 0 6px var(--color-toxic-glow);
+    box-shadow:
+        0 0 20px var(--color-toxic-glow),
+        inset 0 0 15px rgba(74, 222, 128, 0.3);
+    animation: tabToxicPulse 2.5s ease-in-out infinite;
+}
+
+.rp-tab.active .rp-tab-count {
+    color: var(--color-blood-bright);
+    border-color: var(--color-blood);
+}
+
+.rp-tab.active[data-side="survivor"] .rp-tab-count {
+    color: var(--color-toxic-bright);
+    border-color: var(--color-toxic);
+}
+
+@keyframes tabBloodPulse {
+    0%, 100% { box-shadow: 0 0 20px var(--color-blood-glow), inset 0 0 15px rgba(139, 0, 0, 0.3); }
+    50% { box-shadow: 0 0 30px var(--color-blood-bright), inset 0 0 25px rgba(168, 0, 0, 0.4); }
+}
+
+@keyframes tabToxicPulse {
+    0%, 100% { box-shadow: 0 0 20px var(--color-toxic-glow), inset 0 0 15px rgba(74, 222, 128, 0.3); }
+    50% { box-shadow: 0 0 30px var(--color-toxic-bright), inset 0 0 25px rgba(74, 222, 128, 0.5); }
+}
+
+/* ===== ARENA ===== */
+.rp-arena {
+    background:
+        linear-gradient(180deg, var(--bg-panel) 0%, var(--bg-dark) 100%);
+    border: var(--border-thick) solid var(--border-rust);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: var(--shadow-retro), var(--shadow-deep), inset 0 0 30px rgba(0, 0, 0, 0.6);
+    position: relative;
+    overflow: hidden;
+}
+
+.rp-arena::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-blood), transparent);
+    opacity: 0.5;
+}
+
+.rp-arena::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+}
+
+.rp-side-label {
+    font-family: var(--font-retro);
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 18px;
+    color: var(--color-blood-bright);
+    text-shadow:
+        0 0 10px var(--color-blood-glow),
+        0 0 25px rgba(139, 0, 0, 0.4),
+        2px 2px 0 #000;
+    letter-spacing: 4px;
+    position: relative;
+    z-index: 2;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.rp-side-label[data-side="survivor"] {
+    color: var(--color-toxic-bright);
+    text-shadow:
+        0 0 10px var(--color-toxic-glow),
+        0 0 25px rgba(74, 222, 128, 0.3),
+        2px 2px 0 #000;
+}
+
+.rp-side-label::after {
+    content: '';
+    display: block;
+    width: 50%;
+    height: 2px;
+    margin: 8px auto 0;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+    opacity: 0.6;
+}
+
+/* ===== PERKS GRID ===== */
+.rp-perks-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.rp-perk-slot {
+    aspect-ratio: 1 / 1.15;
+    background:
+        radial-gradient(circle at center, #0a0a0f 0%, #000 100%);
+    border: 3px solid var(--border-rust);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s ease;
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+        inset 0 0 18px rgba(0, 0, 0, 0.85),
+        0 0 10px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+}
+
+.rp-perk-slot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 0%, transparent 50%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+.rp-perk-slot.empty {
+    border-style: dashed;
+    border-color: #2a1a1a;
+}
+
+.rp-perk-slot.empty:hover {
+    border-color: var(--color-blood);
+    background: radial-gradient(circle at center, #1a0508 0%, #000 100%);
+    box-shadow: 0 0 12px var(--color-blood-glow), inset 0 0 12px rgba(139, 0, 0, 0.2);
+}
+
+.rp-perk-slot.spinning {
+    border-color: var(--color-blood-bright);
+    box-shadow: 0 0 18px var(--color-blood-glow), inset 0 0 12px rgba(139, 0, 0, 0.2);
+    animation: slotSpin 0.08s linear infinite;
+}
+
+@keyframes slotSpin {
+    0% { transform: scaleY(1); opacity: 1; }
+    50% { transform: scaleY(0.7); opacity: 0.75; }
+    100% { transform: scaleY(1); opacity: 1; }
+}
+
+.rp-perk-slot.filled {
+    border-color: var(--color-blood-bright);
+    box-shadow:
+        0 0 20px var(--color-blood-glow),
+        inset 0 0 15px rgba(139, 0, 0, 0.3);
+}
+
+.rp-perk-slot.filled .rp-perk-icon {
+    color: var(--color-blood-bright);
+}
+
+.rp-perk-slot.filled .rp-perk-icon .perk-image {
+    width: 75%;
+    height: 75%;
+    object-fit: cover;
+    border-radius: 8px;
+    filter: brightness(0.9) contrast(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+.rp-perk-slot.filled .rp-perk-name {
+    color: var(--color-blood-bright);
+    text-shadow: 0 0 6px var(--color-blood-glow);
+}
+
+.rp-perk-slot.just-revealed {
+    animation: slotReveal 0.55s ease;
+}
+
+@keyframes slotReveal {
+    0% { transform: scale(0.7) rotateY(180deg); opacity: 0; }
+    60% { transform: scale(1.12) rotateY(0deg); opacity: 1; }
+    100% { transform: scale(1) rotateY(0deg); opacity: 1; }
+}
+
+.rp-perk-slot.selected {
+    border-color: var(--color-toxic-bright);
+    box-shadow:
+        0 0 25px var(--color-toxic-glow),
+        inset 0 0 15px rgba(74, 222, 128, 0.3);
+    animation: slotSelected 1.2s ease-in-out infinite;
+}
+
+.rp-perk-slot.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    background: var(--color-toxic);
+    color: var(--bg-void);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-retro);
+    font-size: 10px;
+    box-shadow: 0 0 8px var(--color-toxic-glow);
+    z-index: 3;
+}
+
+@keyframes slotSelected {
+    0%, 100% { box-shadow: 0 0 25px var(--color-toxic-glow), inset 0 0 15px rgba(74, 222, 128, 0.3); }
+    50% { box-shadow: 0 0 40px var(--color-toxic-bright), inset 0 0 20px rgba(74, 222, 128, 0.5); }
+}
+
+.rp-perk-icon {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    color: var(--color-blood-bright);
+    text-shadow: 0 0 10px var(--color-blood-glow);
+    padding: 6px;
+    min-height: 0;
+}
+
+.rp-perk-icon .perk-image {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.rp-perk-name {
+    font-family: var(--font-retro);
+    font-size: 7px;
+    color: #4a3a3a;
+    text-align: center;
+    padding: 6px 4px 4px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+    width: 100%;
+    text-transform: uppercase;
+}
+
+.rp-perk-spinner {
+    font-family: var(--font-retro);
+    font-size: 40px;
+    color: #2a1a1a;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+    animation: spinnerPulse 0.15s linear infinite;
+}
+
+@keyframes spinnerPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* ===== CURRENT STATS ===== */
+.rp-current-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 2;
+}
+
+.rp-stat {
+    background: linear-gradient(180deg, rgba(20, 5, 5, 0.7), rgba(10, 2, 2, 0.7));
+    border: 2px solid var(--border-rust);
+    border-radius: 6px;
+    padding: 8px 10px;
+    text-align: center;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.rp-stat-label {
+    display: block;
+    font-family: var(--font-retro);
+    font-size: 6px;
+    color: #5a3030;
+    margin-bottom: 3px;
+    letter-spacing: 1px;
+}
+
+.rp-stat-value {
+    display: block;
+    font-family: var(--font-retro);
+    font-size: 12px;
+    color: var(--color-blood-bright);
+    text-shadow: 0 0 6px var(--color-blood-glow);
+}
+
+.rp-stat-value[data-side="survivor"] {
+    color: var(--color-toxic-bright);
+    text-shadow: 0 0 6px var(--color-toxic-glow);
+}
+
+/* ===== ACTIONS ===== */
+.rp-actions {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 8px;
+    position: relative;
+    z-index: 2;
+}
+
+.btn-rp-pool {
+    grid-column: 1 / -1;
+    background: linear-gradient(180deg, #15151f 0%, #08080d 100%);
+    color: var(--color-toxic-bright);
+    border: var(--border-thick) solid var(--color-toxic);
+    letter-spacing: 1px;
+}
+
+.btn-rp-pool:hover:not(:disabled) {
+    color: #a5f5b9;
+    border-color: var(--color-toxic-bright);
+    box-shadow: 0 4px 18px var(--color-toxic-glow);
+    transform: translateY(-2px);
+}
+
+.rp-pool-modal {
+    width: min(680px, calc(100vw - 24px));
+    max-height: min(760px, calc(100vh - 24px));
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.rp-pool-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.rp-pool-header .modal-title {
+    margin-bottom: 0;
+}
+
+.rp-pool-help {
+    color: #a89595;
+    font-family: var(--font-tech);
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 4px 0 14px;
+}
+
+.rp-pool-toolbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: end;
+    margin-bottom: 12px;
+}
+
+.rp-pool-toolbar label {
+    grid-column: 1 / -1;
+    color: var(--color-toxic-bright);
+    font-family: var(--font-retro);
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+.rp-pool-toolbar input {
+    min-height: 44px;
+    background: #08080d;
+    border: 2px solid var(--border-rust);
+    border-radius: 5px;
+    color: #eee;
+    padding: 8px 10px;
+    font: 16px var(--font-tech);
+}
+
+.rp-pool-toolbar input:focus-visible,
+.rp-pool-option input:focus-visible + .rp-pool-check {
+    outline: 2px solid var(--color-toxic-bright);
+    outline-offset: 2px;
+}
+
+.btn-pool-reset {
+    min-height: 44px;
+    color: var(--color-yellow);
+    border: 2px solid #4a3a1a;
+    background: #15100a;
+    font-size: 8px;
+}
+
+.rp-pool-modal form,
+.rp-pool-modal fieldset {
+    min-height: 0;
+    flex: 1;
+}
+
+.rp-pool-modal fieldset {
+    border: 1px solid var(--border-rust);
+    padding: 8px;
+}
+
+.rp-pool-modal legend {
+    color: var(--color-blood-bright);
+    font: 10px var(--font-retro);
+    letter-spacing: 1px;
+    padding: 0 6px;
+}
+
+.rp-pool-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+    max-height: 390px;
+    overflow-y: auto;
+    padding: 4px;
+}
+
+.rp-pool-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 6px;
+    color: #d8cece;
+    font: 13px var(--font-tech);
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.rp-pool-option:hover {
+    background: rgba(139, 0, 0, 0.2);
+    border-color: var(--border-rust);
+}
+
+.rp-pool-option input {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 auto;
+    accent-color: var(--color-toxic);
+}
+
+.rp-pool-check {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.rp-pool-modal .btn-close {
+    margin-top: 12px;
+}
+
+.btn-rp-randomize {
+    background: linear-gradient(180deg, #1a0508 0%, #0a0204 100%);
+    color: var(--color-blood-bright);
+    padding: 14px 18px;
+    font-size: 12px;
+    box-shadow: var(--shadow-retro), inset 0 1px 0 rgba(168, 0, 0, 0.3);
+    border: var(--border-thick) solid var(--color-blood);
+    border-radius: 8px;
+    text-shadow: 0 0 6px var(--color-blood-glow);
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-rp-randomize::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(168, 0, 0, 0.18), transparent);
+    animation: btnShimmer 3.5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.btn-rp-randomize:hover:not(:disabled) {
+    background: linear-gradient(180deg, #2a0a0e 0%, #1a0508 100%);
+    color: #d60000;
+    box-shadow: 0 4px 25px var(--color-blood-glow), inset 0 1px 0 rgba(255, 80, 80, 0.3);
+    transform: translateY(-2px);
+    text-shadow: 0 0 10px var(--color-blood-bright);
+}
+
+.btn-rp-randomize:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn-rp-reroll {
+    background: linear-gradient(180deg, #2a1a08 0%, #1a0f04 100%);
+    color: var(--color-yellow);
+    padding: 14px 10px;
+    font-size: 9px;
+    border: var(--border-thick) solid #4a3a1a;
+    box-shadow: var(--shadow-retro), inset 0 1px 0 rgba(184, 161, 58, 0.2);
+    text-shadow: 0 0 5px rgba(184, 161, 58, 0.4);
+    letter-spacing: 1px;
+}
+
+.btn-rp-reroll:hover:not(:disabled) {
+    background: linear-gradient(180deg, #3a2a18 0%, #2a1f0a 100%);
+    box-shadow: 0 4px 18px rgba(184, 161, 58, 0.3), inset 0 1px 0 rgba(184, 161, 58, 0.3);
+    color: #d4b54a;
+    transform: translateY(-2px);
+}
+
+.btn-rp-clear {
+    background: linear-gradient(180deg, #1f1f2c 0%, #0a0a10 100%);
+    color: #6a5a5a;
+    padding: 14px 10px;
+    font-size: 9px;
+    border: var(--border-thick) solid var(--border-color);
+    box-shadow: var(--shadow-retro), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    letter-spacing: 1px;
+}
+
+.btn-rp-clear:hover:not(:disabled) {
+    background: linear-gradient(180deg, #2a1a1a 0%, #1a0a0a 100%);
+    color: var(--color-blood-bright);
+    border-color: var(--border-rust);
+    transform: translateY(-2px);
+}
+
+.btn-rp-icon {
+    font-size: 16px;
+    margin-right: 4px;
+}
+
+/* ===== HISTORY ===== */
+.rp-history {
+    background: linear-gradient(180deg, var(--bg-panel) 0%, var(--bg-dark) 100%);
+    border: var(--border-thick) solid var(--border-rust);
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow-retro), var(--shadow-deep);
+    position: relative;
+    overflow: hidden;
+}
+
+.rp-history::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-blood), transparent);
+    opacity: 0.5;
+}
+
+.rp-section-title {
+    font-family: var(--font-retro);
+    font-size: 10px;
+    color: var(--color-blood-bright);
+    text-align: center;
+    margin-bottom: 12px;
+    text-shadow: 0 0 6px var(--color-blood-glow);
+    letter-spacing: 2px;
+}
+
+.rp-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rp-history-item {
+    background: linear-gradient(180deg, rgba(20, 5, 5, 0.6), rgba(10, 2, 2, 0.6));
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+    transition: all var(--transition-normal);
+}
+
+.rp-history-item[data-side="killer"] {
+    border-left: 3px solid var(--color-blood-bright);
+}
+
+.rp-history-item[data-side="survivor"] {
+    border-left: 3px solid var(--color-toxic);
+}
+
+.rp-history-item:hover {
+    background: linear-gradient(180deg, rgba(40, 10, 10, 0.7), rgba(20, 5, 5, 0.7));
+    transform: translateX(2px);
+}
+
+.rp-history-side {
+    font-family: var(--font-retro);
+    font-size: 8px;
+    color: var(--color-blood-bright);
+    text-shadow: 0 0 4px var(--color-blood-glow);
+    min-width: 70px;
+    letter-spacing: 1px;
+}
+
+.rp-history-item[data-side="survivor"] .rp-history-side {
+    color: var(--color-toxic-bright);
+    text-shadow: 0 0 4px var(--color-toxic-glow);
+}
+
+.rp-history-perks {
+    flex: 1;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.rp-history-perk {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-rust);
+    border-radius: 4px;
+    font-size: 16px;
+    color: var(--color-blood-bright);
+}
+
+.rp-history-perk .perk-image {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+.rp-history-reroll {
+    font-family: var(--font-retro);
+    font-size: 6px;
+    color: var(--color-yellow);
+    background: rgba(184, 161, 58, 0.15);
+    border: 1px solid var(--color-yellow);
+    border-radius: 3px;
+    padding: 2px 5px;
+    letter-spacing: 1px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 499px) {
+    .rp-tabs {
+        padding: 6px;
+    }
+    .rp-tab {
+        font-size: 8px;
+        padding: 10px 6px;
+        letter-spacing: 1px;
+        gap: 4px;
+    }
+    .rp-tab-icon {
+        font-size: 14px;
+    }
+    .rp-tab-count {
+        font-size: 6px;
+        padding: 1px 5px;
+        min-width: 22px;
+    }
+    .rp-arena {
+        padding: 12px;
+    }
+    .rp-side-label {
+        font-size: 13px;
+        letter-spacing: 2px;
+        margin-bottom: 12px;
+    }
+    .rp-perks-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    .rp-perk-icon {
+        font-size: 28px;
+    }
+    .rp-perk-name {
+        font-size: 6px;
+    }
+    .rp-current-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px;
+    }
+    .rp-stat {
+        padding: 6px 4px;
+    }
+    .rp-stat-label {
+        font-size: 5px;
+    }
+    .rp-stat-value {
+        font-size: 9px;
+    }
+    .rp-actions {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+    .rp-pool-toolbar,
+    .rp-pool-list {
+        grid-template-columns: 1fr;
+    }
+    .btn-rp-randomize,
+    .btn-rp-reroll,
+    .btn-rp-clear {
+        font-size: 9px;
+        padding: 10px 8px;
+        letter-spacing: 1px;
+    }
+    .btn-rp-icon {
+        font-size: 14px;
+    }
+    .rp-history-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    .rp-history-perks {
+        gap: 4px;
+    }
+    .rp-history-perk {
+        width: 24px;
+        height: 24px;
+        font-size: 14px;
+    }
+    .rp-history-perk .perk-image {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (min-width: 500px) and (max-width: 767px) {
+    .rp-perks-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+    .rp-perk-icon {
+        font-size: 30px;
+    }
+    .rp-perk-name {
+        font-size: 6px;
+    }
+    .rp-actions {
+        grid-template-columns: 2fr 1fr 1fr;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .rp-perks-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .rp-main {
+        max-width: 900px;
+        margin: 0 auto;
+        width: 100%;
+    }
+    .rp-perks-grid {
+        gap: 14px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
